@@ -1,0 +1,8 @@
+figs/
+slides/
+oldcodes/
+papers/
+
+*.pdf
+*.txt
+*.png

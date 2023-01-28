@@ -1,0 +1,18 @@
+executable   = ./do_ZtrackAnalysis.sh
+
+arguments    = $(ProcId)
+
+output       = ./out/ZtrackAnalysis.$(ClusterId).$(ProcId).out
+error        = ./err/ZtrackAnalysis.$(ClusterId).$(ProcId).err
+log          = ./log/ZtrackAnalysis.$(ClusterId).$(ProcId).log
+
+request_cpus   = 10
+
+initialdir = /afs/cern.ch/user/p/pchou/ZHadron/
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
++JobFlavour = "longlunch"
+
+queue 5
