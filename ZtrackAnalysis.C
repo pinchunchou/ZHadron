@@ -606,6 +606,8 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    hMC_phi0s_0->Draw("same");
    hData_phi0s_0->Draw("same");
 
+   if(max1<max2) max1=max2;
+
    hMC_phi0s_0->SetXTitle("#Delta#phi_{Z,track}");
    hData_phi0s_0->SetXTitle("#Delta#phi_{Z,track}");
 
@@ -614,9 +616,9 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    pt2->Draw();
    pt3->Draw();
    hMC_phi0s_0->SetMinimum(0);
-   hMC_phi0s_0->SetMaximum(1.6/binnum);
+   hMC_phi0s_0->SetMaximum(1.6*max1);
    hData_phi0s_0->SetMinimum(0);
-   hData_phi0s_0->SetMaximum(1.6/binnum);
+   hData_phi0s_0->SetMaximum(1.6*max1);
 
 
    ptNs->Draw();
@@ -630,13 +632,15 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    hMC_eta0s_0->SetLineColor(kRed);
    hData_eta0s_0->SetLineColor(kBlack);
 
-   max1 = hMC_phi0s_0->GetMaximum();
-   max2 = hData_phi0s_0->GetMaximum();
+   max1 = hMC_eta0s_0->GetMaximum();
+   max2 = hData_eta0s_0->GetMaximum();
    
    if(max1<max2) hData_eta0s_0->Draw();
    else hMC_eta0s_0->Draw();
    hMC_eta0s_0->Draw("same");
    hData_eta0s_0->Draw("same");
+
+   if(max1<max2) max1=max2;
 
    hMC_eta0s_0->SetXTitle("#Delta#eta_{Z,track}");
    hData_eta0s_0->SetXTitle("#Delta#eta_{Z,track}");
@@ -646,9 +650,9 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    pt2->Draw();
    pt3->Draw();
    hMC_eta0s_0->SetMinimum(0);
-   hMC_eta0s_0->SetMaximum(3.2/binnum);
+   hMC_eta0s_0->SetMaximum(1.6*max1);
    hData_eta0s_0->SetMinimum(0);
-   hData_eta0s_0->SetMaximum(3.2/binnum);
+   hData_eta0s_0->SetMaximum(1.6*max1);
 
    ptNe->Draw();
    ptNe1->Draw();

@@ -10,4 +10,4 @@ cmsenv
 
 cd /afs/cern.ch/user/p/pchou/ZHadron
 
-root -l -q -b "ZtrackAnalysis2.C($1)"
+root -l -q -b "ZtrackAnalysis.C($1)"
