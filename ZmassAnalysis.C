@@ -115,9 +115,11 @@ Double_t bwfun(Double_t *x, Double_t *par) {
 TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 {
 
-   TH1D *hData = new TH1D("hData","",40,81.2,101.2);
+   int binsize = 40;
+   if(centL==50&&centH==90) binsize = 30;
+   TH1D *hData = new TH1D("hData","",binsize,81.2,101.2);
 //TH1D *hDataSame = new TH1D("hDataSame","",40,81.2,101.2);
-TH1D *hMC = new TH1D("hMC","",40,81.2,101.2);
+TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
 //TH1D *hMCSame = new TH1D("hMCSame","",40,81.2,101.2);
 
    TCanvas *c = new TCanvas("c","",800,800);
