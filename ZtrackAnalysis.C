@@ -495,6 +495,32 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    //c->Divide(1);
    c->Clear();
 
+   c->SetCanvasSize(1400,800);
+   c->Divide(2);
+   c->cd(1);
+
+   hMC_etaphi0->Draw("SURF1");
+   hMC_etaphi0->GetYaxis()->SetTitle("MC #Delta#phi_{Z,track}");
+   hMC_etaphi0->GetXaxis()->SetTitle("MC |#Delta#eta_{Z,track}|");
+   hMC_etaphi0->GetXaxis()->SetNdivisions(50205,kFALSE);
+
+   pt->Draw();
+   pt2->Draw();
+   pt3->Draw();
+
+   c->cd(2);
+   hData_etaphi0->Draw("SURF1");
+   hData_etaphi0->GetYaxis()->SetTitle("Data #Delta#phi_{Z,track}");
+   hData_etaphi0->GetXaxis()->SetTitle("Data |#Delta#eta_{Z,track}|");
+   hData_etaphi0->GetXaxis()->SetNdivisions(50205,kFALSE);
+
+   ptN0->Draw();
+
+   c->SaveAs(Form("figs/track/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_%.0f_%.0f_Detaphi0_3D.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH],TptL,TptH)); 
+   //c->SetCanvasSize(800,800);
+   //c->Divide(1);
+   c->Clear();
+
    TLegend leg_s(0.58,0.7,0.98,0.9);
    leg_s.AddEntry(hMC_phi0s_1 ,"0 < |#Delta#eta| < #pi/8","lep");
    leg_s.AddEntry(hMC_phi0s_2 ,"#pi/8 < |#Delta#eta| < #pi/4","lep");
@@ -667,6 +693,7 @@ void ZtrackAnalysis(int casenum){
    style();
 
    switch (casenum){
+      /*
       case 0: ZtrackAnalysis_single(); break;
       case 1: ZtrackAnalysis_single(30,40);break;
       case 2: ZtrackAnalysis_single(40,60);break;
@@ -706,5 +733,20 @@ void ZtrackAnalysis(int casenum){
       case 36: ZtrackAnalysis_single(60,100,0,4,40,70);break;
       case 37: ZtrackAnalysis_single(60,100,0,4,70,100);break;
       case 38: ZtrackAnalysis_single(60,100,0,4,100,10000);break;
+         */
+      case 0: ZtrackAnalysis_single(); break;
+      case 1: ZtrackAnalysis_single(0,2000,0,4,0,1);break;
+      case 2: ZtrackAnalysis_single(0,2000,0,4,1,3);break;
+      case 3: ZtrackAnalysis_single(0,2000,0,4,3,6);break;
+      case 4: ZtrackAnalysis_single(0,2000,0,4,6,10);break;
+      case 5: ZtrackAnalysis_single(0,2000,2,4,0,1);break;
+      case 6: ZtrackAnalysis_single(0,2000,2,4,1,3);break;
+      case 7: ZtrackAnalysis_single(0,2000,2,4,3,6);break;
+      case 8: ZtrackAnalysis_single(0,2000,2,4,6,10);break;
+      case 9:  ZtrackAnalysis_single(0,2000,3,4,0,1);break;
+      case 10: ZtrackAnalysis_single(0,2000,3,4,1,3);break;
+      case 11: ZtrackAnalysis_single(0,2000,3,4,3,6);break;
+      case 12: ZtrackAnalysis_single(0,2000,3,4,6,10);break;
+      
    }
 }
