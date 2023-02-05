@@ -499,8 +499,8 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    c->Divide(2);
    c->cd(1);
 
-   TH2D *hMC_etaphi0_1 = hMC_etaphi0->Rebin2D(2,2,"hMC_etaphi0_1");
-   TH2D *hData_etaphi0_1 = hData_etaphi0->Rebin2D(2,2,"hData_etaphi0_1");
+   TH2 *hMC_etaphi0_1 = hMC_etaphi0->Rebin2D(2,2,"hMC_etaphi0_1");
+   TH2 *hData_etaphi0_1 = hData_etaphi0->Rebin2D(2,2,"hData_etaphi0_1");
 
    hMC_etaphi0_1->Draw("SURF1");
    hMC_etaphi0_1->GetYaxis()->SetTitle("MC #Delta#phi_{Z,track}");
