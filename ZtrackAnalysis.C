@@ -495,24 +495,27 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    //c->Divide(1);
    c->Clear();
 
-   c->SetCanvasSize(1400,800);
+   //c->SetCanvasSize(1400,800);
    c->Divide(2);
    c->cd(1);
 
-   hMC_etaphi0->Draw("SURF1");
-   hMC_etaphi0->GetYaxis()->SetTitle("MC #Delta#phi_{Z,track}");
-   hMC_etaphi0->GetXaxis()->SetTitle("MC |#Delta#eta_{Z,track}|");
-   hMC_etaphi0->GetXaxis()->SetNdivisions(50205,kFALSE);
+   TH2D *hMC_etaphi0_1 = hMC_etaphi0->Rebin2D(2,2,"hMC_etaphi0_1");
+   TH2D *hData_etaphi0_1 = hData_etaphi0->Rebin2D(2,2,"hData_etaphi0_1");
+
+   hMC_etaphi0_1->Draw("SURF1");
+   hMC_etaphi0_1->GetYaxis()->SetTitle("MC #Delta#phi_{Z,track}");
+   hMC_etaphi0_1->GetXaxis()->SetTitle("MC |#Delta#eta_{Z,track}|");
+   hMC_etaphi0_1->GetXaxis()->SetNdivisions(50205,kFALSE);
 
    pt->Draw();
    pt2->Draw();
    pt3->Draw();
 
    c->cd(2);
-   hData_etaphi0->Draw("SURF1");
-   hData_etaphi0->GetYaxis()->SetTitle("Data #Delta#phi_{Z,track}");
-   hData_etaphi0->GetXaxis()->SetTitle("Data |#Delta#eta_{Z,track}|");
-   hData_etaphi0->GetXaxis()->SetNdivisions(50205,kFALSE);
+   hData_etaphi0_1->Draw("SURF1");
+   hData_etaphi0_1->GetYaxis()->SetTitle("Data #Delta#phi_{Z,track}");
+   hData_etaphi0_1->GetXaxis()->SetTitle("Data |#Delta#eta_{Z,track}|");
+   hData_etaphi0_1->GetXaxis()->SetNdivisions(50205,kFALSE);
 
    ptN0->Draw();
 
