@@ -37,7 +37,7 @@ void style(){
 }
 
 const char *typeofdata = "doubleMu";
-const char *typeofdatatext = "double muon";
+const char *typeofdatatext = "Double muon";
 
 //const char *typeofdata = "HardProbes";
 //const char *typeofdatatext = "hard probes";
@@ -210,11 +210,6 @@ TH1D *hMC = new TH1D("hMC","",40,81.2,101.2);
    hMC_eta->SetMarkerStyle(24);
    hMC_phi->SetMarkerStyle(24);
    hMC_pt->SetMarkerStyle(24);
-
-
-   
-
-   
    
 //   hData->Draw("e");
 //   hMC->Draw("e same");
@@ -248,11 +243,6 @@ TH1D *hMC = new TH1D("hMC","",40,81.2,101.2);
    hData_pt->SetLineColor(kBlack);
    hMC_pt->SetLineColor(kRed);
 
-
-   
-
-
-   
    //hMC->GetXaxis()->SetTitleSize(48);
    //hMC->GetXaxis()->SetTitleFont(43);
 
@@ -264,15 +254,23 @@ TH1D *hMC = new TH1D("hMC","",40,81.2,101.2);
    //hMC->SetLineColor(2);
    //hMC->SetMarkerColor(2);
 
+/*
    hData_eta->Scale(1./hData_eta->GetEntries());
    hData_phi->Scale(1./hData_phi->GetEntries());
    hData_pt->Scale(1./hData_pt->GetEntries());
    hMC_eta->Scale(1./hMC_eta->GetEntries());
    hMC_phi->Scale(1./hMC_phi->GetEntries());
    hMC_pt->Scale(1./hMC_pt->GetEntries());
+*/
+
+   hData_eta->Scale(1./hData_eta->Integral("width"));
+   hData_phi->Scale(1./hData_phi->Integral("width"));
+   hData_pt->Scale(1./hData_pt->Integral("width"));
+   hMC_eta->Scale(1./hMC_eta->Integral("width"));
+   hMC_phi->Scale(1./hMC_phi->Integral("width"));
+   hMC_pt->Scale(1./hMC_pt->Integral("width"));
 
    ////style();
-
    
 //   TF1 *f = new TF1("f","[0]+[1]*x+[2]*TMath::BreitWigner(x, [3], [4])");
    TF1 *f = new TF1("f",bwfun,81.2,101.2,7);
@@ -323,6 +321,11 @@ TH1D *hMC = new TH1D("hMC","",40,81.2,101.2);
    h->SetBinContent(7,f2->GetParameter(1));
    h->SetBinContent(8,f2->GetParError(1));
 
+   h->SetBinContent(9, hData->GetMean());
+   h->SetBinContent(10,hMC->GetMean());
+   h->SetBinContent(11,hData->GetStdDev());
+   h->SetBinContent(12,hMC->GetStdDev());
+
    TLegend leg(0.58,0.78,0.98,0.9);
    leg.AddEntry(hMC ,"Monte Carlo: DYLL","lep");
    leg.AddEntry(hData ,Form("Data: %s",typeofdatatext),"lep");
@@ -351,7 +354,9 @@ TH1D *hMC = new TH1D("hMC","",40,81.2,101.2);
    ptN->SetNDC(kTRUE);
    ptN->Draw();
 
-   c->SaveAs(Form("figs/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
+   gSystem->Exec(Form("mkdir -p figs/mass/%s",typeofdata));
+
+   c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
    c->Clear();
 
    ////style();
@@ -372,7 +377,7 @@ TH1D *hMC = new TH1D("hMC","",40,81.2,101.2);
 
    ptN->Draw();
 
-   c->SaveAs(Form("figs/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_eta.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
+   c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_eta.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
    c->Clear();
 
    ////style();
@@ -391,7 +396,7 @@ TH1D *hMC = new TH1D("hMC","",40,81.2,101.2);
 
    ptN->Draw();
 
-   c->SaveAs(Form("figs/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_phi.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
+   c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_phi.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
    c->Clear();
 
 
@@ -410,13 +415,13 @@ TH1D *hMC = new TH1D("hMC","",40,81.2,101.2);
    
       ptN->Draw();
 
-      c->SaveAs(Form("figs/%s/Zmass_%s_%.0f_%.0f_pt.png",typeofdata,typeofdata,cent_diff[centL],cent_diff[centH])); 
+      c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_pt.png",typeofdata,typeofdata,cent_diff[centL],cent_diff[centH])); 
       hMC_pt->SetMinimum(0.00001);
       c->SetLogy(1);
       //hMC_pt->Draw("same");
       //hMC_pt->Draw("axis same");
 
-      c->SaveAs(Form("figs/%s/Zmass_%s_%.0f_%.0f_pt_log.png",typeofdata,typeofdata,cent_diff[centL],cent_diff[centH])); 
+      c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_pt_log.png",typeofdata,typeofdata,cent_diff[centL],cent_diff[centH])); 
       c->SetLogy(0);
       c->Clear();
    }
@@ -443,6 +448,12 @@ void loop()
 
    TH1D *hDataWidth = new TH1D("hDataWidth","",5,0,100);
    TH1D *hMCWidth = new TH1D("hMCWidth","",5,0,100);
+
+   TH1D *hDataMass_1 = new TH1D("hDataMass_1","",5,0,100);
+   TH1D *hMCMass_1 = new TH1D("hMCMass_1","",5,0,100);
+
+   TH1D *hDataWidth_1 = new TH1D("hDataWidth_1","",5,0,100);
+   TH1D *hMCWidth_1 = new TH1D("hMCWidth_1","",5,0,100);
    
    for (int i=1;i<=hDataMass->GetNbinsX();i++)
    {
@@ -456,6 +467,11 @@ void loop()
       hDataWidth->SetBinError(i,h->GetBinContent(6));
       hMCWidth->SetBinContent(i,h->GetBinContent(7));
       hMCWidth->SetBinError(i,h->GetBinContent(8));
+
+      hDataMass_1->SetBinContent(i,h->GetBinContent(9));
+      hMCMass_1->SetBinContent(i,h->GetBinContent(10));
+      hDataWidth_1->SetBinContent(i,h->GetBinContent(11));
+      hMCWidth_1->SetBinContent(i,h->GetBinContent(12));
    }
 
    
@@ -466,24 +482,37 @@ void loop()
    hDataMass->SetLineWidth(2);
    hMCMass->SetLineWidth(2);
 
+   hMCMass_1->SetMarkerStyle(24);
+   hDataMass_1->SetMarkerStyle(25);
+
+   hMCMass_1->SetMarkerColor(kRed);
+   hDataMass_1->SetMarkerColor(kBlack);
+
    hDataMass->SetXTitle("Z p_{T} (GeV)");
    hDataMass->SetYTitle("M_{#mu#mu} (GeV)");
    hDataMass->Draw("e");
    hDataMass->SetMinimum(88);
    hDataMass->SetMaximum(94);
-   hMCMass->SetLineColor(2);
-   hMCMass->SetMarkerColor(2);
+   hMCMass->SetLineColor(kRed);
+   hMCMass->SetMarkerColor(kRed);
+   hDataMass->SetLineColor(kBlack);
+   hDataMass->SetMarkerColor(kBlack);
    hMCMass->Draw("e same");
 
-   TLegend leg(0.58,0.78,0.98,0.9);
-   leg.AddEntry(hMCMass ,"Monte Carlo: DYLL","lep");
-   leg.AddEntry(hDataMass ,Form("Data: %s",typeofdatatext),"lep");
+   hMCMass_1->Draw("p same");
+   hDataMass_1->Draw("p same");
+
+   TLegend leg(0.18,0.68,0.58,0.9);
+   leg.AddEntry(hMCMass ,"Monte Carlo fitting results","lep");
+   leg.AddEntry(hDataMass ,Form("%s data fitting results",typeofdatatext),"lep");
+   leg.AddEntry(hMCMass_1 ,"Monte Carlo sample mean values","p");
+   leg.AddEntry(hDataMass_1 ,Form("%s data sample mean values",typeofdatatext),"p");
    leg.SetFillColorAlpha(kWhite,0);
    leg.SetLineColor(kBlack);
    leg.SetLineWidth(1);
    leg.Draw();
 
-   c1->SaveAs(Form("figs/%s/Zmass_%s_loop.png",typeofdata,typeofdata)); 
+   c1->SaveAs(Form("figs/mass/%s/Zmass_%s_loop.png",typeofdata,typeofdata)); 
    c1->Clear();
 
    ////style();
@@ -491,28 +520,39 @@ void loop()
    hDataWidth->SetLineWidth(2);
    hMCWidth->SetLineWidth(2);
 
+   hMCWidth_1->SetMarkerStyle(24);
+   hDataWidth_1->SetMarkerStyle(25);
+
+   hMCWidth_1->SetMarkerColor(kRed);
+   hDataWidth_1->SetMarkerColor(kBlack);
+
    hDataWidth->SetXTitle("Z p_{T} (GeV)");
    hDataWidth->SetYTitle("M_{#mu#mu} width (GeV)");
    hDataWidth->Draw("e");
    hDataWidth->SetMinimum(0.5);
    hDataWidth->SetMaximum(4.5);
-   hMCWidth->SetLineColor(2);
-   hMCWidth->SetMarkerColor(2);
+   hMCWidth->SetLineColor(kRed);
+   hMCWidth->SetMarkerColor(kRed);
+   hDataWidth->SetLineColor(kBlack);
+   hDataWidth->SetMarkerColor(kBlack);
    hMCWidth->Draw("e same");
 
-   TLegend leg1(0.18,0.78,0.58,0.9);
-   leg1.AddEntry(hMCWidth ,"Monte Carlo: DYLL","lep");
-   leg1.AddEntry(hDataWidth ,Form("Data: %s",typeofdatatext),"lep");
+   hMCWidth_1->Draw("p same");
+   hDataWidth_1->Draw("p same");
+
+   TLegend leg1(0.18,0.68,0.58,0.9);
+   leg1.AddEntry(hMCWidth ,"Monte Carlo fitting results","lep");
+   leg1.AddEntry(hDataWidth ,Form("%s data fitting results",typeofdatatext),"lep");
+   leg1.AddEntry(hMCWidth_1 ,"Monte Carlo sample StdDevs","p");
+   leg1.AddEntry(hDataWidth_1 ,Form("%s data sample StdDevs",typeofdatatext),"p");
+
    leg1.SetFillColorAlpha(kWhite,0);
    leg1.SetLineColor(kBlack);
    leg1.SetLineWidth(1);
    leg1.Draw();
 
-   c1->SaveAs(Form("figs/%s/ZmassWidth_%s_loop.png",typeofdata,typeofdata)); 
+   c1->SaveAs(Form("figs/mass/%s/ZmassWidth_%s_loop.png",typeofdata,typeofdata)); 
    c1->Clear();
-
-
-
 
 }  
 
@@ -527,6 +567,12 @@ void loopHiBin()
 
    TH1D *hDataWidth = new TH1D("hDataWidth","",4,cent_diff);
    TH1D *hMCWidth = new TH1D("hMCWidth","",4,cent_diff);
+
+   TH1D *hDataMass_1 = new TH1D("hDataMass_1","",4,cent_diff);
+   TH1D *hMCMass_1 = new TH1D("hMCMass_1","",4,cent_diff);
+
+   TH1D *hDataWidth_1 = new TH1D("hDataWidth_1","",4,cent_diff);
+   TH1D *hMCWidth_1 = new TH1D("hMCWidth_1","",4,cent_diff);
 
 
    //TH1F *hnew = new TH1F("hnew","rebinned",k,cent_diff);
@@ -546,16 +592,21 @@ void loopHiBin()
       hMCWidth->SetBinContent(i,h->GetBinContent(7));
       hMCWidth->SetBinError(i,h->GetBinContent(8));
 
-      std::cout<<"i = "<<i<<std::endl;
-      std::cout<<"hDataMass = "<<h->GetBinContent(1)<<"+-"<<h->GetBinContent(2)<<std::endl;
-      std::cout<<"hMCMass = "<<h->GetBinContent(3)<<"+-"<<h->GetBinContent(4)<<std::endl;
-      std::cout<<"hDataWidth = "<<h->GetBinContent(5)<<"+-"<<h->GetBinContent(6)<<std::endl;
-      std::cout<<"hMCWidth = "<<h->GetBinContent(7)<<"+-"<<h->GetBinContent(8)<<std::endl;
+      hDataMass_1->SetBinContent(i,h->GetBinContent(9));
+      hMCMass_1->SetBinContent(i,h->GetBinContent(10));
+      hDataWidth_1->SetBinContent(i,h->GetBinContent(11));
+      hMCWidth_1->SetBinContent(i,h->GetBinContent(12));
 
-      std::cout<<"Get: hDataMass = "<<hDataMass->GetBinContent(i)<<"+-"<<hDataMass->GetBinError(i)<<std::endl;
-      std::cout<<"Get: hMCMass = "<<hMCMass->GetBinContent(i)<<"+-"<<hMCMass->GetBinError(i)<<std::endl;
-      std::cout<<"Get: hDataWidth = "<<hDataWidth->GetBinContent(i)<<"+-"<<hDataWidth->GetBinError(i)<<std::endl;
-      std::cout<<"Get: hMCWidth = "<<hMCWidth->GetBinContent(i)<<"+-"<<hMCWidth->GetBinError(i)<<std::endl;
+      //std::cout<<"i = "<<i<<std::endl;
+      //std::cout<<"hDataMass = "<<h->GetBinContent(1)<<"+-"<<h->GetBinContent(2)<<std::endl;
+      //std::cout<<"hMCMass = "<<h->GetBinContent(3)<<"+-"<<h->GetBinContent(4)<<std::endl;
+      //std::cout<<"hDataWidth = "<<h->GetBinContent(5)<<"+-"<<h->GetBinContent(6)<<std::endl;
+      //std::cout<<"hMCWidth = "<<h->GetBinContent(7)<<"+-"<<h->GetBinContent(8)<<std::endl;
+//
+      //std::cout<<"Get: hDataMass = "<<hDataMass->GetBinContent(i)<<"+-"<<hDataMass->GetBinError(i)<<std::endl;
+      //std::cout<<"Get: hMCMass = "<<hMCMass->GetBinContent(i)<<"+-"<<hMCMass->GetBinError(i)<<std::endl;
+      //std::cout<<"Get: hDataWidth = "<<hDataWidth->GetBinContent(i)<<"+-"<<hDataWidth->GetBinError(i)<<std::endl;
+      //std::cout<<"Get: hMCWidth = "<<hMCWidth->GetBinContent(i)<<"+-"<<hMCWidth->GetBinError(i)<<std::endl;
    }
    
 
@@ -565,25 +616,38 @@ void loopHiBin()
    hDataMass->SetLineWidth(2);
    hMCMass->SetLineWidth(2);
 
+   hMCMass_1->SetMarkerStyle(24);
+   hDataMass_1->SetMarkerStyle(25);
+
+   hMCMass_1->SetMarkerColor(kRed);
+   hDataMass_1->SetMarkerColor(kBlack);
+
    //hDataMass->SetXTitle("Centrality Bin");
    hDataMass->SetXTitle("Centrality (%)");
    hDataMass->SetYTitle("M_{#mu#mu} (GeV)");
    hDataMass->Draw("e");
    hDataMass->SetMinimum(90);
    hDataMass->SetMaximum(92);
-   hMCMass->SetLineColor(2);
-   hMCMass->SetMarkerColor(2);
+   hMCMass->SetLineColor(kRed);
+   hMCMass->SetMarkerColor(kRed);
+   hDataMass->SetLineColor(kBlack);
+   hDataMass->SetMarkerColor(kBlack);
    hMCMass->Draw("e same");
 
-   TLegend leg(0.18,0.78,0.58,0.9);
-   leg.AddEntry(hMCMass ,"Monte Carlo: DYLL","lep");
-   leg.AddEntry(hDataMass ,Form("Data: %s",typeofdatatext),"lep");
+   hMCMass_1->Draw("p same");
+   hDataMass_1->Draw("p same");
+
+   TLegend leg(0.18,0.68,0.58,0.9);
+   leg.AddEntry(hMCMass ,"Monte Carlo fitting results","lep");
+   leg.AddEntry(hDataMass ,Form("%s data fitting results",typeofdatatext),"lep");
+   leg.AddEntry(hMCMass_1 ,"Monte Carlo sample mean values","p");
+   leg.AddEntry(hDataMass_1 ,Form("%s data sample mean values",typeofdatatext),"p");
    leg.SetFillColorAlpha(kWhite,0);
    leg.SetLineColor(kBlack);
    leg.SetLineWidth(1);
    leg.Draw();
 
-   c2->SaveAs(Form("figs/%s/Zmass_%s_loopHiBin.png",typeofdata,typeofdata)); 
+   c2->SaveAs(Form("figs/mass/%s/Zmass_%s_loopHiBin.png",typeofdata,typeofdata)); 
    c2->Clear();
 
    ////style();
@@ -591,25 +655,38 @@ void loopHiBin()
    hDataWidth->SetLineWidth(2);
    hMCWidth->SetLineWidth(2);
 
+   hMCWidth_1->SetMarkerStyle(24);
+   hDataWidth_1->SetMarkerStyle(25);
+
+   hMCWidth_1->SetMarkerColor(kRed);
+   hDataWidth_1->SetMarkerColor(kBlack);
+
    //hDataMass->SetXTitle("Centrality Bin");
    hDataWidth->SetXTitle("Centrality (%)");
    hDataWidth->SetYTitle("M_{#mu#mu} width (GeV)");
    hDataWidth->Draw("e");
    hDataWidth->SetMinimum(-2);
    hDataWidth->SetMaximum(6);
-   hMCWidth->SetLineColor(2);
-   hMCWidth->SetMarkerColor(2);
+   hMCWidth->SetLineColor(kRed);
+   hMCWidth->SetMarkerColor(kRed);
+   hDataWidth->SetLineColor(kBlack);
+   hDataWidth->SetMarkerColor(kBlack);
    hMCWidth->Draw("e same");
 
-   TLegend leg1(0.18,0.78,0.58,0.9);
-   leg1.AddEntry(hMCWidth ,"Monte Carlo: DYLL","lep");
-   leg1.AddEntry(hDataWidth ,Form("Data: %s",typeofdatatext),"lep");
+   hMCWidth_1->Draw("p same");
+   hDataWidth_1->Draw("p same");
+
+   TLegend leg1(0.18,0.68,0.58,0.9);
+   leg1.AddEntry(hMCWidth ,"Monte Carlo fitting results","lep");
+   leg1.AddEntry(hDataWidth ,Form("%s data fitting results",typeofdatatext),"lep");
+   leg1.AddEntry(hMCWidth_1 ,"Monte Carlo sample StdDevs","p");
+   leg1.AddEntry(hDataWidth_1 ,Form("%s data sample StdDevs",typeofdatatext),"p");
    leg1.SetFillColorAlpha(kWhite,0);
    leg1.SetLineColor(kBlack);
    leg1.SetLineWidth(1);
    leg1.Draw();
 
-   c2->SaveAs(Form("figs/%s/ZmassWidth_%s_loopHiBin.png",typeofdata,typeofdata)); 
+   c2->SaveAs(Form("figs/mass/%s/ZmassWidth_%s_loopHiBin.png",typeofdata,typeofdata)); 
    c2->Clear();
 }  
 
@@ -618,9 +695,9 @@ void ZmassAnalysis(){
 
    style();
 
-   //ZmassAnalysis_single();
-   //loop();
-   //loopHiBin();
-   ZmassAnalysis_single(0,20);
+   ZmassAnalysis_single();
+   loop();
+   loopHiBin();
+   //ZmassAnalysis_single(0,20);
 
 }
