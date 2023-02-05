@@ -246,8 +246,12 @@ TH1D *hMC = new TH1D("hMC","",40,81.2,101.2);
    //hMC->GetXaxis()->SetTitleSize(48);
    //hMC->GetXaxis()->SetTitleFont(43);
 
-   hData->Scale(1./hData->GetEntries());
-   hMC->Scale(1./hMC->GetEntries());
+   //hData->Scale(1./hData->GetEntries());
+   //hMC->Scale(1./hMC->GetEntries());
+
+   hData->Scale(1./hData->Integral("width"));
+   hMC->Scale(1./hMC->Integral("width"));
+
    hMC->Draw();
    hMC->SetXTitle("M_{#mu#mu} (GeV)");
    hData->Draw("same"); 
@@ -503,10 +507,10 @@ void loop()
    hDataMass_1->Draw("p same");
 
    TLegend leg(0.18,0.68,0.58,0.9);
-   leg.AddEntry(hMCMass ,"Monte Carlo fitting results","lep");
-   leg.AddEntry(hDataMass ,Form("%s data fitting results",typeofdatatext),"lep");
-   leg.AddEntry(hMCMass_1 ,"Monte Carlo sample mean values","p");
-   leg.AddEntry(hDataMass_1 ,Form("%s data sample mean values",typeofdatatext),"p");
+   leg.AddEntry(hMCMass ,"Monte Carlo fitting","lep");
+   leg.AddEntry(hDataMass ,Form("%s data fitting",typeofdatatext),"lep");
+   leg.AddEntry(hMCMass_1 ,"Monte Carlo mean","p");
+   leg.AddEntry(hDataMass_1 ,Form("%s data mean",typeofdatatext),"p");
    leg.SetFillColorAlpha(kWhite,0);
    leg.SetLineColor(kBlack);
    leg.SetLineWidth(1);
@@ -541,10 +545,10 @@ void loop()
    hDataWidth_1->Draw("p same");
 
    TLegend leg1(0.18,0.68,0.58,0.9);
-   leg1.AddEntry(hMCWidth ,"Monte Carlo fitting results","lep");
-   leg1.AddEntry(hDataWidth ,Form("%s data fitting results",typeofdatatext),"lep");
-   leg1.AddEntry(hMCWidth_1 ,"Monte Carlo sample StdDevs","p");
-   leg1.AddEntry(hDataWidth_1 ,Form("%s data sample StdDevs",typeofdatatext),"p");
+   leg1.AddEntry(hMCWidth ,"Monte Carlo fitting","lep");
+   leg1.AddEntry(hDataWidth ,Form("%s data fitting",typeofdatatext),"lep");
+   leg1.AddEntry(hMCWidth_1 ,"Monte Carlo StdDevs","p");
+   leg1.AddEntry(hDataWidth_1 ,Form("%s data StdDevs",typeofdatatext),"p");
 
    leg1.SetFillColorAlpha(kWhite,0);
    leg1.SetLineColor(kBlack);
@@ -638,10 +642,10 @@ void loopHiBin()
    hDataMass_1->Draw("p same");
 
    TLegend leg(0.18,0.68,0.58,0.9);
-   leg.AddEntry(hMCMass ,"Monte Carlo fitting results","lep");
-   leg.AddEntry(hDataMass ,Form("%s data fitting results",typeofdatatext),"lep");
-   leg.AddEntry(hMCMass_1 ,"Monte Carlo sample mean values","p");
-   leg.AddEntry(hDataMass_1 ,Form("%s data sample mean values",typeofdatatext),"p");
+   leg.AddEntry(hMCMass ,"Monte Carlo fitting","lep");
+   leg.AddEntry(hDataMass ,Form("%s data fitting",typeofdatatext),"lep");
+   leg.AddEntry(hMCMass_1 ,"Monte Carlo mean","p");
+   leg.AddEntry(hDataMass_1 ,Form("%s data mean",typeofdatatext),"p");
    leg.SetFillColorAlpha(kWhite,0);
    leg.SetLineColor(kBlack);
    leg.SetLineWidth(1);
@@ -677,10 +681,10 @@ void loopHiBin()
    hDataWidth_1->Draw("p same");
 
    TLegend leg1(0.18,0.68,0.58,0.9);
-   leg1.AddEntry(hMCWidth ,"Monte Carlo fitting results","lep");
-   leg1.AddEntry(hDataWidth ,Form("%s data fitting results",typeofdatatext),"lep");
-   leg1.AddEntry(hMCWidth_1 ,"Monte Carlo sample StdDevs","p");
-   leg1.AddEntry(hDataWidth_1 ,Form("%s data sample StdDevs",typeofdatatext),"p");
+   leg1.AddEntry(hMCWidth ,"Monte Carlo fitting","lep");
+   leg1.AddEntry(hDataWidth ,Form("%s data fitting",typeofdatatext),"lep");
+   leg1.AddEntry(hMCWidth_1 ,"Monte Carlo StdDevs","p");
+   leg1.AddEntry(hDataWidth_1 ,Form("%s data StdDevs",typeofdatatext),"p");
    leg1.SetFillColorAlpha(kWhite,0);
    leg1.SetLineColor(kBlack);
    leg1.SetLineWidth(1);
