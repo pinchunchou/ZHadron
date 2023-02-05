@@ -140,6 +140,12 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    TH2D *hData_etaphi0 = new TH2D("hData_etaphi0","",250,0,6.3,250,-3.1415926,3.1415926);
    TH2D *hMC_etaphi0 = new TH2D("hMC_etaphi0","",250,0,6.3,250,-3.1415926,3.1415926);
 
+   TH2D *hData_etaphi0_1 = new TH2D("hData_etaphi0_1","",100,-6.3,6.3,100,-3.1415926,3.1415926);
+   TH2D *hMC_etaphi0_1 = new TH2D("hMC_etaphi0_1","",100,-6.3,6.3,100,-3.1415926,3.1415926);
+
+   TH2D *hData_etaphi0_2 = new TH2D("hData_etaphi0_2","",100,-6.3,6.3,100,-3.1415926,3.1415926);
+   TH2D *hMC_etaphi0_2 = new TH2D("hMC_etaphi0_2","",100,-6.3,6.3,100,-3.1415926,3.1415926);
+
 
    TChain *tMC = new TChain("t");
    tMC->Add("/eos/cms/store/group/phys_heavyions_ops/pchou/MC/*.root?#t");
@@ -159,6 +165,14 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    tMC->Draw("trackDphi:trackDeta>>hMC_etaphi0",sel_reg&&nolepton);
    tData->Draw("trackDphi:trackDeta>>hData_etaphi0",sel_reg&&nolepton);
 
+   tMC->Draw("trackDphi:trackDeta>>hMC_etaphi0_1",sel_reg&&nolepton);
+   tData->Draw("trackDphi:trackDeta>>hData_etaphi0_1",sel_reg&&nolepton);
+
+   tMC->Draw("trackDphi:-trackDeta>>hMC_etaphi0_2",sel_reg&&nolepton);
+   tData->Draw("trackDphi:-trackDeta>>hData_etaphi0_2",sel_reg&&nolepton);
+
+   hMC_etaphi0_1->Add(hMC_etaphi0_2);
+   hData_etaphi0_1->Add(hData_etaphi0_2);
 
    tData->Draw("trackDphi>>hData_phi0s_0",sel_reg&&nolepton&&"trackDeta>=0&&trackDeta<3.1415926/2");
    tMC->Draw("trackDphi>>hMC_phi0s_0",sel_reg&&nolepton&&"trackDeta>=0&&trackDeta<3.1415926/2");
@@ -499,13 +513,19 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    c->Divide(2);
    c->cd(1);
 
-   TH2 *hMC_etaphi0_1 = hMC_etaphi0->Rebin2D(2,2,"hMC_etaphi0_1");
-   TH2 *hData_etaphi0_1 = hData_etaphi0->Rebin2D(2,2,"hData_etaphi0_1");
+   double c_theta = c->GetTheta();
+   double c_phi = c->GetPhi();
+
+   //TH2 *hMC_etaphi0_1 = hMC_etaphi0->Rebin2D(2,2,"hMC_etaphi0_1");
+   //TH2 *hData_etaphi0_1 = hData_etaphi0->Rebin2D(2,2,"hData_etaphi0_1");
 
    hMC_etaphi0_1->Draw("SURF1");
    hMC_etaphi0_1->GetYaxis()->SetTitle("MC #Delta#phi_{Z,track}");
    hMC_etaphi0_1->GetXaxis()->SetTitle("MC |#Delta#eta_{Z,track}|");
    hMC_etaphi0_1->GetXaxis()->SetNdivisions(50205,kFALSE);
+
+   c->SetTheta(65.);
+   c->SetPhi(145.);
 
    pt->Draw();
    pt2->Draw();
@@ -517,11 +537,18 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    hData_etaphi0_1->GetXaxis()->SetTitle("Data |#Delta#eta_{Z,track}|");
    hData_etaphi0_1->GetXaxis()->SetNdivisions(50205,kFALSE);
 
+   c->SetTheta(65.);
+   c->SetPhi(145.);
+
    ptN0->Draw();
 
    c->SaveAs(Form("figs/track/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_%.0f_%.0f_Detaphi0_3D.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH],TptL,TptH)); 
    //c->SetCanvasSize(800,800);
    //c->Divide(1);
+
+   c->SetTheta(c_theta);
+   c->SetPhi(c_phi);
+
    c->Clear();
 
    TLegend leg_s(0.58,0.7,0.98,0.9);
@@ -750,6 +777,7 @@ void ZtrackAnalysis(int casenum){
       case 10: ZtrackAnalysis_single(0,2000,3,4,1,2);break;
       case 11: ZtrackAnalysis_single(0,2000,3,4,2,5);break;
       case 12: ZtrackAnalysis_single(0,2000,3,4,5,10);break;
+      case 13: ZtrackAnalysis_single(0,200,3,4);break;
       
    }
 }
