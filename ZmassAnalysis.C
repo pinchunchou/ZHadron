@@ -585,7 +585,7 @@ void loopHiBin()
    for (int i=1;i<=4;i++)
    {
       //TH1D *h = ZmassAnalysis_single(0,200,hDataMass->GetBinLowEdge(i),hDataMass->GetBinLowEdge(i+1));
-      TH1D *h = ZmassAnalysis_single(0,200,i-1,i); 
+      TH1D *h = ZmassAnalysis_single(0,2000,i-1,i); 
       hDataMass->SetBinContent(i,h->GetBinContent(1));
       hDataMass->SetBinError(i,h->GetBinContent(2));
       hMCMass->SetBinContent(i,h->GetBinContent(3));
