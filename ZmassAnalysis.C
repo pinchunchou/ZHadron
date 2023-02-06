@@ -254,11 +254,21 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
    hData->Scale(1./hData->Integral("width"));
    hMC->Scale(1./hMC->Integral("width"));
 
-   hMC->Draw();
+   double max1 = hMC->GetMaximum();
+   double max2 = hData->GetMaximum();
+   
+   if(max1<max2) hData->Draw();
+   else hMC->Draw();
+   hMC->Draw("same");
+   hData->Draw("same");
+
    hMC->SetXTitle("M_{#mu#mu} (GeV)");
-   hData->Draw("same"); 
+   hData->SetXTitle("M_{#mu#mu} (GeV)");
    //hMC->SetLineColor(2);
    //hMC->SetMarkerColor(2);
+
+   hMC->SetMinimum(0);
+   hData->SetMinimum(0);
 
 /*
    hData_eta->Scale(1./hData_eta->GetEntries());
@@ -296,7 +306,7 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
    //f2->SetLineColor(2);
    f2->SetLineColor(kRed);
    
-
+/*
    hData->Fit("f","LL");
    hData->Fit("f","");
    hData->Fit("f","LL m");
@@ -316,6 +326,15 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
    hMC->Fit("f2","");
    hMC->Fit("f2","");
    hMC->Fit("f2","");
+*/
+   tData->UnbinnedFit("f", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"");
+   tMC->UnbinnedFit("f2", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"");
+
+   tData->UnbinnedFit("f", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E");
+   tMC->UnbinnedFit("f2", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E");
+
+   tData->UnbinnedFit("f", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E M");
+   tMC->UnbinnedFit("f2", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E M");
   
    h->SetBinContent(1,f->GetParameter(0));
    h->SetBinContent(2,f->GetParError(0));
@@ -367,19 +386,28 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
 
    ////style();
    
+   max1 = hMC_eta->GetMaximum();
+   max2 = hData_eta->GetMaximum();
+   
+   if(max1<max2) hData_eta->Draw();
+   else hMC_eta->Draw();
+   hMC_eta->Draw("same");
+   hData_eta->Draw("same");
 
-   hMC_eta->Draw();
    hMC_eta->SetXTitle("#eta_{Z}");
-   hData_eta->Draw("same"); 
+   hData_eta->SetXTitle("#eta_{Z}");
+
+
    leg.Draw();
    pt->Draw();
    pt2->Draw();
    hMC_eta->SetMinimum(0);
-   if (ptL==0&&ptH==200) hMC_eta->SetMaximum(0.1); 
-   else if(ptL==0&&ptH==20) hMC_eta->SetMaximum(0.1); 
-   else if(ptL==80&&ptH==100) hMC_eta->SetMaximum(0.2); 
-   else if(ptL==0&&ptH==2000) hMC_eta->SetMaximum(0.1); 
-   else hMC_eta->SetMaximum(0.15);
+   hData_eta->SetMinimum(0);
+   //if (ptL==0&&ptH==200) hMC_eta->SetMaximum(0.1); 
+   //else if(ptL==0&&ptH==20) hMC_eta->SetMaximum(0.1); 
+   //else if(ptL==80&&ptH==100) hMC_eta->SetMaximum(0.2); 
+   //else if(ptL==0&&ptH==2000) hMC_eta->SetMaximum(0.1); 
+   //else hMC_eta->SetMaximum(0.15);
 
    ptN->Draw();
 
@@ -388,17 +416,25 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
 
    ////style();
 
-   hMC_phi->Draw();
+   max1 = hMC_phi->GetMaximum();
+   max2 = hData_phi->GetMaximum();
+   
+   if(max1<max2) hData_phi->Draw();
+   else hMC_phi->Draw();
+   hMC_phi->Draw("same");
+   hData_phi->Draw("same");
+
+   hData_phi->SetXTitle("#phi_{Z}");
    hMC_phi->SetXTitle("#phi_{Z}");
 
-   hData_phi->Draw("same"); 
    leg.Draw();
    pt->Draw();
    pt2->Draw();
    hMC_phi->SetMinimum(0);
-   hMC_phi->SetMaximum(0.08);
-   if(ptL==80&&ptH==100) hMC_phi->SetMaximum(0.1);
-   else if(ptL==0&&ptH==2000) hMC_phi->SetMaximum(0.05);
+   hData_phi->SetMinimum(0);
+   //hMC_phi->SetMaximum(0.08);
+   //if(ptL==80&&ptH==100) hMC_phi->SetMaximum(0.1);
+   //else if(ptL==0&&ptH==2000) hMC_phi->SetMaximum(0.05);
 
    ptN->Draw();
 
@@ -408,12 +444,24 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
 
    if(ptL==0&&(ptH==200||ptH==2000)){
       ////style();
-      hMC_pt->Draw();
+
+      max1 = hMC_pt->GetMaximum();
+      max2 = hData_pt->GetMaximum();
+      
+      if(max1<max2) hData_pt->Draw();
+      else hMC_pt->Draw();
+      hMC_pt->Draw("same");
+      hData_pt->Draw("same");
+   
+      hData_pt->SetXTitle("Z p_{T} (GeV)");
       hMC_pt->SetXTitle("Z p_{T} (GeV)");
+
       hMC_pt->GetXaxis()->SetLimits(0,200);
-      hData_pt->Draw("same"); 
+      hData_pt->GetXaxis()->SetLimits(0,200);
+
       hMC_pt->SetMinimum(0);
-      hMC_pt->SetMaximum(0.3);
+      hData_pt->SetMinimum(0);
+      //hMC_pt->SetMaximum(0.3);
       leg.Draw();
       pt->Draw();
       pt->SetY(0.88);
@@ -423,6 +471,7 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
 
       c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_pt.png",typeofdata,typeofdata,cent_diff[centL],cent_diff[centH])); 
       hMC_pt->SetMinimum(0.00001);
+      hData_pt->SetMinimum(0.00001);
       c->SetLogy(1);
       //hMC_pt->Draw("same");
       //hMC_pt->Draw("axis same");
