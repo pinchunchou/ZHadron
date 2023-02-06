@@ -127,7 +127,7 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 {
 
    int binsize = 40;
-   if(centL==3&&centH==4) binsize = 30;
+   if((centL==3&&centH==4)||ptL>35) binsize = 30;
    TH1D *hData = new TH1D("hData","",binsize,81.2,101.2);
 //TH1D *hDataSame = new TH1D("hDataSame","",40,81.2,101.2);
 TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
