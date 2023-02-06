@@ -4,7 +4,18 @@
 #include <TF1.h>
 #include <TMath.h>
 #include <TROOT.h>
+#include <TStyle.h>
 #include <cmath>
+#include <TCanvas.h>
+#include <TLegend.h>
+#include <TAxis.h>
+#include <RooPlot.h>
+#include <TMath.h>
+#include <TF1.h>
+#include <TSystem.h>
+#include <TLegend.h>
+#include <TLatex.h>
+#include <TChain.h>
 void style(){
 
   gROOT->SetStyle("Plain");
@@ -306,7 +317,7 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
    //f2->SetLineColor(2);
    f2->SetLineColor(kRed);
    
-/*
+   
    hData->Fit("f","LL");
    hData->Fit("f","");
    hData->Fit("f","LL m");
@@ -326,16 +337,21 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
    hMC->Fit("f2","");
    hMC->Fit("f2","");
    hMC->Fit("f2","");
-*/
+
+/*
+   std::cout<<"UnbinnedFit 1"<<std::endl;
    tData->UnbinnedFit("f", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"");
-   tMC->UnbinnedFit("f2", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"");
+   //tMC->UnbinnedFit("f2", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"");
 
+   std::cout<<"UnbinnedFit 2"<<std::endl;
    tData->UnbinnedFit("f", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E");
-   tMC->UnbinnedFit("f2", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E");
+   //tMC->UnbinnedFit("f2", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E");
 
+   std::cout<<"UnbinnedFit 3"<<std::endl;
    tData->UnbinnedFit("f", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E M");
-   tMC->UnbinnedFit("f2", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E M");
-  
+   //tMC->UnbinnedFit("f2", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E M");
+  */
+
    h->SetBinContent(1,f->GetParameter(0));
    h->SetBinContent(2,f->GetParError(0));
    h->SetBinContent(3,f2->GetParameter(0));
@@ -584,8 +600,8 @@ void loop()
    hDataWidth->SetXTitle("Z p_{T} (GeV)");
    hDataWidth->SetYTitle("M_{#mu#mu} width (GeV)");
    hDataWidth->Draw("e");
-   hDataWidth->SetMinimum(0.5);
-   hDataWidth->SetMaximum(4.5);
+   hDataWidth->SetMinimum(0);
+   hDataWidth->SetMaximum(6);
    hMCWidth->SetLineColor(kRed);
    hMCWidth->SetMarkerColor(kRed);
    hDataWidth->SetLineColor(kBlack);
@@ -720,8 +736,8 @@ void loopHiBin()
    hDataWidth->SetXTitle("Centrality (%)");
    hDataWidth->SetYTitle("M_{#mu#mu} width (GeV)");
    hDataWidth->Draw("e");
-   hDataWidth->SetMinimum(-2);
-   hDataWidth->SetMaximum(6);
+   hDataWidth->SetMinimum(0);
+   hDataWidth->SetMaximum(8);
    hMCWidth->SetLineColor(kRed);
    hMCWidth->SetMarkerColor(kRed);
    hDataWidth->SetLineColor(kBlack);
