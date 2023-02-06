@@ -140,11 +140,11 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    TH2D *hData_etaphi0 = new TH2D("hData_etaphi0","",250,0,6.3,250,-3.1415926,3.1415926);
    TH2D *hMC_etaphi0 = new TH2D("hMC_etaphi0","",250,0,6.3,250,-3.1415926,3.1415926);
 
-   TH2D *hData_etaphi0_1 = new TH2D("hData_etaphi0_1","",100,-6.3,6.3,100,-3.1415926,3.1415926);
-   TH2D *hMC_etaphi0_1 = new TH2D("hMC_etaphi0_1","",100,-6.3,6.3,100,-3.1415926,3.1415926);
+   TH2D *hData_etaphi0_1 = new TH2D("hData_etaphi0_1","",50,-6.3,6.3,50,-3.1415926,3.1415926);
+   TH2D *hMC_etaphi0_1 = new TH2D("hMC_etaphi0_1","",50,-6.3,6.3,50,-3.1415926,3.1415926);
 
-   TH2D *hData_etaphi0_2 = new TH2D("hData_etaphi0_2","",100,-6.3,6.3,100,-3.1415926,3.1415926);
-   TH2D *hMC_etaphi0_2 = new TH2D("hMC_etaphi0_2","",100,-6.3,6.3,100,-3.1415926,3.1415926);
+   TH2D *hData_etaphi0_2 = new TH2D("hData_etaphi0_2","",50,-6.3,6.3,50,-3.1415926,3.1415926);
+   TH2D *hMC_etaphi0_2 = new TH2D("hMC_etaphi0_2","",50,-6.3,6.3,50,-3.1415926,3.1415926);
 
 
    TChain *tMC = new TChain("t");
@@ -504,22 +504,26 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
 
    ptN0->Draw();
 
+   double c_theta = c->GetTheta();
+   double c_phi = c->GetPhi();
+
    c->SaveAs(Form("figs/track/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_%.0f_%.0f_Detaphi0.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH],TptL,TptH)); 
    //c->SetCanvasSize(800,800);
    //c->Divide(1);
    c->Clear();
 
+   c->SetTheta(65.);
+   c->SetPhi(145.);
+
    //c->SetCanvasSize(1400,800);
    c->Divide(2);
    c->cd(1);
 
-   double c_theta = c->GetTheta();
-   double c_phi = c->GetPhi();
-
    //TH2 *hMC_etaphi0_1 = hMC_etaphi0->Rebin2D(2,2,"hMC_etaphi0_1");
    //TH2 *hData_etaphi0_1 = hData_etaphi0->Rebin2D(2,2,"hData_etaphi0_1");
 
-   hMC_etaphi0_1->Draw("SURF1");
+   hMC_etaphi0_1->Draw("surf2");
+   hMC_etaphi0_1->Draw("CONT1 SAME");
    hMC_etaphi0_1->GetYaxis()->SetTitle("MC #Delta#phi_{Z,track}");
    hMC_etaphi0_1->GetXaxis()->SetTitle("MC |#Delta#eta_{Z,track}|");
    hMC_etaphi0_1->GetXaxis()->SetNdivisions(50205,kFALSE);
@@ -531,8 +535,12 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    pt2->Draw();
    pt3->Draw();
 
+   c->SetTheta(65.);
+   c->SetPhi(145.);
+
    c->cd(2);
-   hData_etaphi0_1->Draw("SURF1");
+   hData_etaphi0_1->Draw("surf2");
+   hData_etaphi0_1->Draw("CONT1 SAME");
    hData_etaphi0_1->GetYaxis()->SetTitle("Data #Delta#phi_{Z,track}");
    hData_etaphi0_1->GetXaxis()->SetTitle("Data |#Delta#eta_{Z,track}|");
    hData_etaphi0_1->GetXaxis()->SetNdivisions(50205,kFALSE);
@@ -542,14 +550,17 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
 
    ptN0->Draw();
 
+   c->SetTheta(65.);
+   c->SetPhi(145.);
+
    c->SaveAs(Form("figs/track/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_%.0f_%.0f_Detaphi0_3D.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH],TptL,TptH)); 
    //c->SetCanvasSize(800,800);
    //c->Divide(1);
 
+   c->Clear();
+
    c->SetTheta(c_theta);
    c->SetPhi(c_phi);
-
-   c->Clear();
 
    TLegend leg_s(0.58,0.7,0.98,0.9);
    leg_s.AddEntry(hMC_phi0s_1 ,"0 < |#Delta#eta| < #pi/8","lep");
@@ -764,6 +775,8 @@ void ZtrackAnalysis(int casenum){
       case 37: ZtrackAnalysis_single(60,100,0,4,70,100);break;
       case 38: ZtrackAnalysis_single(60,100,0,4,100,10000);break;
          */
+
+      
       case 0: ZtrackAnalysis_single(); break;
       case 1: ZtrackAnalysis_single(0,2000,0,4,0,1);break;
       case 2: ZtrackAnalysis_single(0,2000,0,4,1,2);break;
