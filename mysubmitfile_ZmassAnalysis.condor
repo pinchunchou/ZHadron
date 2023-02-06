@@ -1,0 +1,18 @@
+executable   = ./do_ZmassAnalysis.sh
+
+arguments    = $(ProcId)
+
+output       = ./out/ZmassAnalysis.$(ClusterId).$(ProcId).out
+error        = ./err/ZmassAnalysis.$(ClusterId).$(ProcId).err
+log          = ./log/ZmassAnalysis.$(ClusterId).$(ProcId).log
+
+request_cpus   = 10
+
+initialdir = /afs/cern.ch/user/p/pchou/ZHadron/
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
++JobFlavour = "longlunch"
+
+queue 1
