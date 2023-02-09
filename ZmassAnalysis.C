@@ -168,11 +168,11 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    TH1D *hMC_pt = new TH1D("hMC_pt","",40,0,200);
 
 
-   TH1D *hData_muPt1 = new TH1D("hData_muPt1","",40,20,120);
-   TH1D *hMC_muPt1 = new TH1D("hMC_muPt1","",40,20,120);
+   TH1D *hData_muPt1 = new TH1D("hData_muPt1","",40,0,120);
+   TH1D *hMC_muPt1 = new TH1D("hMC_muPt1","",40,0,120);
 
-   TH1D *hData_muPt2 = new TH1D("hData_muPt2","",40,20,120);
-   TH1D *hMC_muPt2 = new TH1D("hMC_muPt2","",40,20,120);
+   TH1D *hData_muPt2 = new TH1D("hData_muPt2","",40,0,120);
+   TH1D *hMC_muPt2 = new TH1D("hMC_muPt2","",40,0,120);
    
    //tData->Draw("zMass>>hData",Form("zPt>%f&&zPt<%f&&hiBin>=%d&&hiBin<%d",ptL,ptH,centL,centH));
    //tData->Draw("zMass>>hDataSame",Form("zPt>%f&&zPt<%f&&hiBin>=%d&&hiBin<%d",ptL,ptH,centL,centH));
