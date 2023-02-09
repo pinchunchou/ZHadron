@@ -724,49 +724,51 @@ void ZtrackAnalysis(int casenum){
    style();
 
    switch (casenum){
-      /*
+      
       case 0: ZtrackAnalysis_single(); break;
       case 1: ZtrackAnalysis_single(30,40);break;
       case 2: ZtrackAnalysis_single(40,60);break;
       case 3: ZtrackAnalysis_single(60,80);break;
       case 4: ZtrackAnalysis_single(80,100); break;
-      case 5: ZtrackAnalysis_single(0,200,0,1);break;
-      case 6: ZtrackAnalysis_single(0,200,1,2);break;
-      case 7: ZtrackAnalysis_single(0,200,2,3);break;
-      case 8: ZtrackAnalysis_single(0,200,3,4);break;
-      case 9: ZtrackAnalysis_single(0,2000,0,4,0,10);break;
-      case 10: ZtrackAnalysis_single(0,2000,0,4,10,20);break;
-      case 11: ZtrackAnalysis_single(0,2000,0,4,20,40);break;
-      case 12: ZtrackAnalysis_single(0,2000,0,4,40,70);break;
-      case 13: ZtrackAnalysis_single(0,2000,0,4,70,100);break;
-      case 14: ZtrackAnalysis_single(0,2000,0,4,100,10000);break;
-      case 15: ZtrackAnalysis_single(0,2000,3,4,0,10);break;
-      case 16: ZtrackAnalysis_single(0,2000,3,4,10,20);break;
-      case 17: ZtrackAnalysis_single(0,2000,3,4,20,40);break;
-      case 18: ZtrackAnalysis_single(0,2000,3,4,40,70);break;
-      case 19: ZtrackAnalysis_single(0,2000,3,4,70,100);break;
-      case 20: ZtrackAnalysis_single(0,2000,3,4,100,10000);break;
-      case 21: ZtrackAnalysis_single(0,2000,2,3,0,10);break;
-      case 22: ZtrackAnalysis_single(0,2000,2,3,10,20);break;
-      case 23: ZtrackAnalysis_single(0,2000,2,3,20,40);break;
-      case 24: ZtrackAnalysis_single(0,2000,2,3,40,70);break;
-      case 25: ZtrackAnalysis_single(0,2000,2,3,70,100);break;
-      case 26: ZtrackAnalysis_single(0,2000,2,3,100,10000);break;
-      case 27: ZtrackAnalysis_single(0,2000,2,4,0,10);break;
-      case 28: ZtrackAnalysis_single(0,2000,2,4,10,20);break;
-      case 29: ZtrackAnalysis_single(0,2000,2,4,20,40);break;
-      case 30: ZtrackAnalysis_single(0,2000,2,4,40,70);break;
-      case 31: ZtrackAnalysis_single(0,2000,2,4,70,100);break;
+      case 5: ZtrackAnalysis_single(0,2000,0,1);break;
+      case 6: ZtrackAnalysis_single(0,2000,1,2);break;
+      case 7: ZtrackAnalysis_single(0,2000,2,3);break;
+      case 8: ZtrackAnalysis_single(0,2000,3,4);break;
+      case 9: ZtrackAnalysis_single(0,2000,0,4,0,1);break;
+      case 10: ZtrackAnalysis_single(0,2000,0,4,1,2);break;
+      case 11: ZtrackAnalysis_single(0,2000,0,4,2,5);break;
+      case 12: ZtrackAnalysis_single(0,2000,0,4,5,10);break;
+      case 13: ZtrackAnalysis_single(0,2000,0,4,10,20);break;
+      case 14: ZtrackAnalysis_single(0,2000,0,4,20,50);break;
+      case 15: ZtrackAnalysis_single(0,2000,0,4,50,100);break;
+      case 16: ZtrackAnalysis_single(0,2000,0,4,100,10000);break;
+      case 17: ZtrackAnalysis_single(0,2000,3,4,0,1);break;
+      case 18: ZtrackAnalysis_single(0,2000,3,4,1,2);break;
+      case 19: ZtrackAnalysis_single(0,2000,3,4,2,5);break;
+      case 20: ZtrackAnalysis_single(0,2000,3,4,5,10);break;
+      case 21: ZtrackAnalysis_single(0,2000,3,4,10,20);break;
+      case 22: ZtrackAnalysis_single(0,2000,3,4,20,50);break;
+      case 23: ZtrackAnalysis_single(0,2000,3,4,50,100);break;
+      case 24: ZtrackAnalysis_single(0,2000,3,4,100,10000);break;
+      case 25: ZtrackAnalysis_single(0,2000,2,4,0,1);break;
+      case 26: ZtrackAnalysis_single(0,2000,2,4,1,2);break;
+      case 27: ZtrackAnalysis_single(0,2000,2,4,2,5);break;
+      case 28: ZtrackAnalysis_single(0,2000,2,4,5,10);break;
+      case 29: ZtrackAnalysis_single(0,2000,2,4,10,20);break;
+      case 30: ZtrackAnalysis_single(0,2000,2,4,20,50);break;
+      case 31: ZtrackAnalysis_single(0,2000,2,4,50,100);break;
       case 32: ZtrackAnalysis_single(0,2000,2,4,100,10000);break;
-      case 33: ZtrackAnalysis_single(60,100,0,4,0,10);break;
-      case 34: ZtrackAnalysis_single(60,100,0,4,10,20);break;
-      case 35: ZtrackAnalysis_single(60,100,0,4,20,40);break;
-      case 36: ZtrackAnalysis_single(60,100,0,4,40,70);break;
-      case 37: ZtrackAnalysis_single(60,100,0,4,70,100);break;
-      case 38: ZtrackAnalysis_single(60,100,0,4,100,10000);break;
-         */
+      case 33: ZtrackAnalysis_single(60,100,0,4,0,1);break;
+      case 34: ZtrackAnalysis_single(60,100,0,4,1,2);break;
+      case 35: ZtrackAnalysis_single(60,100,0,4,2,5);break;
+      case 36: ZtrackAnalysis_single(60,100,0,4,5,10);break;
+      case 37: ZtrackAnalysis_single(60,100,0,4,10,20);break;
+      case 38: ZtrackAnalysis_single(60,100,0,4,20,50);break;
+      case 39: ZtrackAnalysis_single(60,100,0,4,50,100);break;
+      case 40: ZtrackAnalysis_single(60,100,0,4,100,10000);break;
+         
 
-      
+      /*
       case 0: ZtrackAnalysis_single(); break;
       case 1: ZtrackAnalysis_single(0,2000,0,4,0,1);break;
       case 2: ZtrackAnalysis_single(0,2000,0,4,1,2);break;
@@ -781,6 +783,7 @@ void ZtrackAnalysis(int casenum){
       case 11: ZtrackAnalysis_single(0,2000,3,4,2,5);break;
       case 12: ZtrackAnalysis_single(0,2000,3,4,5,10);break;
       case 13: ZtrackAnalysis_single(0,200,3,4);break;
+         */
       
    }
 }
