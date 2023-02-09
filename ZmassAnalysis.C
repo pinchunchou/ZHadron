@@ -205,11 +205,11 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    tData->Draw("zPt>>hData_pt",Form("hiHF<=%.4f&&hiHF>%.4f",hf_diff[centL],hf_diff[centH]));
    tMC->Draw("zPt>>hMC_pt",Form("hiHF<=%.4f&&hiHF>%.4f",hf_diff[centL],hf_diff[centH]));
 
-   tData->Draw("zPhi>>hData_muPt1",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("zPhi>>hMC_muPt1",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tData->Draw("muPt1>>hData_muPt1",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("muPt1>>hMC_muPt1",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
 
-   tData->Draw("zPhi>>hData_muPt2",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("zPhi>>hMC_muPt2",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tData->Draw("muPt2>>hData_muPt2",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("muPt2>>hMC_muPt2",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
 
    //int countD = tData->GetEntries(Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
    //std::cout<<"Data = "<<countD<<std::endl;
