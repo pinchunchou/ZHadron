@@ -591,6 +591,19 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    return h;
 
+   delete hData; hData=NULL;
+   delete hMC; hMC=NULL;
+   delete hData_eta; hData_eta=NULL;
+   delete hMC_eta; hMC_eta=NULL;
+   delete hData_phi; hData_phi=NULL;
+   delete hMC_phi; hMC_phi=NULL;
+   delete hData_pt; hData_pt=NULL;
+   delete hMC_pt; hMC_pt=NULL;
+   delete hMC_muPt1; hMC_muPt1=NULL;
+   delete hData_muPt1; hData_muPt1=NULL;
+   delete hMC_muPt2; hMC_muPt2=NULL;
+   delete hData_muPt2; hData_muPt2=NULL;
+
 }
 
 void loop()
