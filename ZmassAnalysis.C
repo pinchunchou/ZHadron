@@ -444,8 +444,8 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    leg.Draw();
 
    TLegend legMuPt(0.58,0.68,0.98,0.9);
-   legMuPt.AddEntry(hMC_genMuPt1 ,"Monte Carlo: GEN level","lepf");
-   legMuPt.AddEntry(hMC_muPt1 ,"Monte Carlo: RECO","lepf");
+   legMuPt.AddEntry(hMC_genMuPt1 ,"Monte Carlo: GEN level","lf");
+   legMuPt.AddEntry(hMC_muPt1 ,"Monte Carlo: RECO","lf");
    legMuPt.AddEntry(hData_muPt1 ,Form("Data: %s",typeofdatatext),"lep");
    legMuPt.SetFillColorAlpha(kWhite,0);
    legMuPt.SetLineColor(kBlack);
@@ -466,14 +466,14 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    pt2->SetNDC(kTRUE);
    pt2->Draw();
 
-   TLatex *ptp = new TLatex(0.16,0.85,Form("%.0f %%< Centrality < %.0f %%",cent_diff[centL],cent_diff[centH]));
+   TLatex *ptp = new TLatex(0.18,0.84,Form("%.0f %%< Centrality < %.0f %%",cent_diff[centL],cent_diff[centH]));
    ptp->SetTextFont(42);
-   ptp->SetTextSize(0.02);
+   ptp->SetTextSize(0.025);
    ptp->SetNDC(kTRUE);
    ptp->Draw();
-   TLatex *ptp2 = new TLatex(0.16,0.89,Form("%.1f < Z p_{T} < %.1f",ptL,ptH));
+   TLatex *ptp2 = new TLatex(0.18,0.89,Form("%.1f < Z p_{T} < %.1f",ptL,ptH));
    ptp2->SetTextFont(42);
-   ptp2->SetTextSize(0.02);
+   ptp2->SetTextSize(0.025);
    ptp2->SetNDC(kTRUE);
    ptp2->Draw();
 
@@ -578,11 +578,11 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    max3 = hMC_genMuPt2->GetMaximum();
 
    if(max1<max2&&max3<max2) hData_muPt2->Draw();
-   else if(max1<max3&&max2<max3) hMC_genMuPt2->Draw("hist ep");
-   else hMC_muPt2->Draw("hist ep");
+   else if(max1<max3&&max2<max3) hMC_genMuPt2->Draw("hist");
+   else hMC_muPt2->Draw("hist");
    
-   hMC_genMuPt2->Draw("hist ep same");
-   hMC_muPt2->Draw("hist ep same");
+   hMC_genMuPt2->Draw("hist same");
+   hMC_muPt2->Draw("hist same");
    hData_muPt2->Draw("same");
    
    hData_muPt2->SetXTitle("#mu p_{T} (GeV)");
