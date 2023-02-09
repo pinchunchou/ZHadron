@@ -299,6 +299,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hData_muPt2->SetLineColor(kBlack);
    //hMC_muPt2->SetLineColor(kRed);
 
+   hData_muPt1->SetLineWidth(2);
+   hData_muPt2->SetLineWidth(2);
+
    hMC_genMuPt1->SetLineColor(TColor::GetColor("#004488"));
    hMC_muPt1->SetLineColor(TColor::GetColor("#994455"));
    hMC_genMuPt1->SetFillColor(TColor::GetColor("#6699CC"));
@@ -567,10 +570,10 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    else if(max1<max3&&max2<max3) hMC_genMuPt2->Draw("hist");
    else hMC_muPt2->Draw("hist");
    
-   hMC_muPt2->Draw("same");
-   hData_muPt2->Draw("hist same");
    hMC_genMuPt2->Draw("hist same");
-
+   hMC_muPt2->Draw("hist same");
+   hData_muPt2->Draw("same");
+   
    hData_muPt2->SetXTitle("#mu p_{T} (GeV)");
    hMC_muPt2->SetXTitle("#mu p_{T} (GeV)");
    hMC_genMuPt2->SetXTitle("#mu p_{T} (GeV)");
@@ -639,6 +642,7 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    return h;
 
+/* Seems useless
    delete hData; hData=NULL;
    delete hMC; hMC=NULL;
    delete hData_eta; hData_eta=NULL;
@@ -668,7 +672,7 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    delete gROOT->FindObject("hData_muPt2");
    delete gROOT->FindObject("hMC_genMuPt1");
    delete gROOT->FindObject("hMC_genMuPt2");
-
+*/
 }
 
 void loop()
@@ -794,6 +798,7 @@ void loop()
    c1->SaveAs(Form("figs/mass/%s/ZmassWidth_%s_loop.png",typeofdata,typeofdata)); 
    c1->Clear();
 
+/* Seems useless
    delete hDataMass; hDataMass=NULL;
    delete hMCMass; hMCMass=NULL;
    delete hDataWidth; hDataWidth=NULL;
@@ -811,6 +816,7 @@ void loop()
    delete gROOT->FindObject("hMCMass_1");
    delete gROOT->FindObject("hDataWidth_1");
    delete gROOT->FindObject("hMCWidth_1");
+   */
 
 }  
 
