@@ -729,6 +729,15 @@ void loop()
    c1->SaveAs(Form("figs/mass/%s/ZmassWidth_%s_loop.png",typeofdata,typeofdata)); 
    c1->Clear();
 
+   delete gROOT->FindObject("hDataMass");
+   delete gROOT->FindObject("hMCMass");
+   delete gROOT->FindObject("hDataWidth");
+   delete gROOT->FindObject("hMCWidth");
+   delete gROOT->FindObject("hDataMass_1");
+   delete gROOT->FindObject("hMCMass_1");
+   delete gROOT->FindObject("hDataWidth_1");
+   delete gROOT->FindObject("hMCWidth_1");
+
 }  
 
 
