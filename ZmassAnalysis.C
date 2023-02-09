@@ -141,11 +141,11 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    // TTree *tData = (TTree*)infData->Get("t");
    //TTree *tMC = (TTree*)infMC->Get("t");
 
-   TH1D *hData_eta = new TH1D("hData_eta","",40,-8,8);
-   TH1D *hMC_eta = new TH1D("hMC_eta","",40,-8,8);
+   TH1D *hData_eta = new TH1D("hData_eta","",binsize,-8,8);
+   TH1D *hMC_eta = new TH1D("hMC_eta","",binsize,-8,8);
    
-   TH1D *hData_phi = new TH1D("hData_phi","",40,-3.1415926,3.1415926);
-   TH1D *hMC_phi = new TH1D("hMC_phi","",40,-3.1415926,3.1415926);
+   TH1D *hData_phi = new TH1D("hData_phi","",binsize,-3.1415926,3.1415926);
+   TH1D *hMC_phi = new TH1D("hMC_phi","",binsize,-3.1415926,3.1415926);
     
    
    
@@ -164,8 +164,8 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    //TFile *infMC = new TFile("/eos/cms/store/group/phys_heavyions_ops/pchou/outputMC.root");
 
    
-   TH1D *hData_pt = new TH1D("hData_pt","",40,0,200);
-   TH1D *hMC_pt = new TH1D("hMC_pt","",40,0,200);
+   TH1D *hData_pt = new TH1D("hData_pt","",binsize,0,200);
+   TH1D *hMC_pt = new TH1D("hMC_pt","",binsize,0,200);
 
 
    TH1D *hData_muPt1 = new TH1D("hData_muPt1","",40,0,120);
@@ -466,6 +466,17 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    pt2->SetNDC(kTRUE);
    pt2->Draw();
 
+   TLatex *ptp = new TLatex(0.16,0.85,Form("%.0f %%< Centrality < %.0f %%",cent_diff[centL],cent_diff[centH]));
+   ptp->SetTextFont(42);
+   ptp->SetTextSize(0.02);
+   ptp->SetNDC(kTRUE);
+   ptp->Draw();
+   TLatex *ptp2 = new TLatex(0.16,0.89,Form("%.1f < Z p_{T} < %.1f",ptL,ptH));
+   ptp2->SetTextFont(42);
+   ptp2->SetTextSize(0.02);
+   ptp2->SetNDC(kTRUE);
+   ptp2->Draw();
+
    TLatex *ptN = new TLatex(0.6,0.97,Form("N_{MC} = %d, N_{Data} = %d",countM,countD));
    ptN->SetTextFont(42);
    ptN->SetTextSize(0.03);
@@ -551,8 +562,8 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hMC_genMuPt1->SetXTitle("#mu p_{T} (GeV)");
 
    legMuPt.Draw();
-   pt->Draw();
-   pt2->Draw();
+   ptp->Draw();
+   ptp2->Draw();
    hMC_muPt1->SetMinimum(0);
    hData_muPt1->SetMinimum(0);
    hMC_genMuPt1->SetMinimum(0);
@@ -567,11 +578,11 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    max3 = hMC_genMuPt2->GetMaximum();
 
    if(max1<max2&&max3<max2) hData_muPt2->Draw();
-   else if(max1<max3&&max2<max3) hMC_genMuPt2->Draw("hist");
-   else hMC_muPt2->Draw("hist");
+   else if(max1<max3&&max2<max3) hMC_genMuPt2->Draw("hist ep");
+   else hMC_muPt2->Draw("hist ep");
    
-   hMC_genMuPt2->Draw("hist same");
-   hMC_muPt2->Draw("hist same");
+   hMC_genMuPt2->Draw("hist ep same");
+   hMC_muPt2->Draw("hist ep same");
    hData_muPt2->Draw("same");
    
    hData_muPt2->SetXTitle("#mu p_{T} (GeV)");
@@ -579,8 +590,8 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hMC_genMuPt2->SetXTitle("#mu p_{T} (GeV)");
 
    legMuPt.Draw();
-   pt->Draw();
-   pt2->Draw();
+   ptp->Draw();
+   ptp2->Draw();
    hMC_muPt2->SetMinimum(0);
    hData_muPt2->SetMinimum(0);
    hMC_genMuPt2->SetMinimum(0);
