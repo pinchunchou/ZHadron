@@ -127,11 +127,12 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 {
 
    int binsize = 40;
-   if((centL==3&&centH==4)||ptL>35) binsize = 30;
+   if(centL==3&&centH==4) binsize = 30;
+   if(ptL>55) binsize = 25;
    TH1D *hData = new TH1D("hData","",binsize,81.2,101.2);
-//TH1D *hDataSame = new TH1D("hDataSame","",40,81.2,101.2);
-TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
-//TH1D *hMCSame = new TH1D("hMCSame","",40,81.2,101.2);
+   //TH1D *hDataSame = new TH1D("hDataSame","",40,81.2,101.2);
+   TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
+   //TH1D *hMCSame = new TH1D("hMCSame","",40,81.2,101.2);
 
    TCanvas *c = new TCanvas("c","",800,800);
 
@@ -165,6 +166,13 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
    
    TH1D *hData_pt = new TH1D("hData_pt","",40,0,200);
    TH1D *hMC_pt = new TH1D("hMC_pt","",40,0,200);
+
+
+   TH1D *hData_muPt1 = new TH1D("hData_muPt1","",40,20,120);
+   TH1D *hMC_muPt1 = new TH1D("hMC_muPt1","",40,20,120);
+
+   TH1D *hData_muPt2 = new TH1D("hData_muPt2","",40,20,120);
+   TH1D *hMC_muPt2 = new TH1D("hMC_muPt2","",40,20,120);
    
    //tData->Draw("zMass>>hData",Form("zPt>%f&&zPt<%f&&hiBin>=%d&&hiBin<%d",ptL,ptH,centL,centH));
    //tData->Draw("zMass>>hDataSame",Form("zPt>%f&&zPt<%f&&hiBin>=%d&&hiBin<%d",ptL,ptH,centL,centH));
@@ -197,6 +205,12 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
    tData->Draw("zPt>>hData_pt",Form("hiHF<=%.4f&&hiHF>%.4f",hf_diff[centL],hf_diff[centH]));
    tMC->Draw("zPt>>hMC_pt",Form("hiHF<=%.4f&&hiHF>%.4f",hf_diff[centL],hf_diff[centH]));
 
+   tData->Draw("zPhi>>hData_muPt1",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("zPhi>>hMC_muPt1",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+
+   tData->Draw("zPhi>>hData_muPt2",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("zPhi>>hMC_muPt2",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+
    //int countD = tData->GetEntries(Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
    //std::cout<<"Data = "<<countD<<std::endl;
    //int countM = tMC->GetEntries(Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
@@ -220,9 +234,16 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
    hData_pt->Sumw2();
    hMC_pt->Sumw2();
 
+   hData_muPt1->Sumw2();
+   hMC_muPt1->Sumw2();
+   hData_muPt2->Sumw2();
+   hMC_muPt2->Sumw2();
+
    hMC_eta->SetMarkerStyle(24);
    hMC_phi->SetMarkerStyle(24);
    hMC_pt->SetMarkerStyle(24);
+   hMC_muPt1->SetMarkerStyle(24);
+   hMC_muPt2->SetMarkerStyle(24);
    
 //   hData->Draw("e");
 //   hMC->Draw("e same");
@@ -249,12 +270,22 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
    hData_pt->SetMarkerColor(kBlack);
    hMC_pt->SetMarkerColor(kRed);
 
+   hData_muPt1->SetMarkerColor(kBlack);
+   hMC_muPt1->SetMarkerColor(kRed);
+   hData_muPt2->SetMarkerColor(kBlack);
+   hMC_muPt2->SetMarkerColor(kRed);
+
    hData_eta->SetLineColor(kBlack);
    hMC_eta->SetLineColor(kRed);
    hData_phi->SetLineColor(kBlack);
    hMC_phi->SetLineColor(kRed);
    hData_pt->SetLineColor(kBlack);
    hMC_pt->SetLineColor(kRed);
+
+   hData_muPt1->SetLineColor(kBlack);
+   hMC_muPt1->SetLineColor(kRed);
+   hData_muPt2->SetLineColor(kBlack);
+   hMC_muPt2->SetLineColor(kRed);
 
    //hMC->GetXaxis()->SetTitleSize(48);
    //hMC->GetXaxis()->SetTitleFont(43);
@@ -296,6 +327,11 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
    hMC_eta->Scale(1./hMC_eta->Integral("width"));
    hMC_phi->Scale(1./hMC_phi->Integral("width"));
    hMC_pt->Scale(1./hMC_pt->Integral("width"));
+
+   hData_muPt1->Scale(1./hData_muPt1->Integral("width"));
+   hMC_muPt1->Scale(1./hMC_muPt1->Integral("width"));
+   hData_muPt2->Scale(1./hData_muPt2->Integral("width"));
+   hMC_muPt2->Scale(1./hMC_muPt2->Integral("width"));
 
    ////style();
    
@@ -382,7 +418,7 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
    pt->SetTextSize(0.03);
    pt->SetNDC(kTRUE);
    pt->Draw();
-   TLatex *pt2 = new TLatex(0.18,0.88,Form("%.1f < p_{T} < %.1f",ptL,ptH));
+   TLatex *pt2 = new TLatex(0.18,0.88,Form("%.1f < Z p_{T} < %.1f",ptL,ptH));
    pt2->SetTextFont(42);
    //std::cout<<"TextSize2 = "<<pt2->GetTextSize()<<std::endl;
    pt2->SetTextSize(0.03);
@@ -455,6 +491,51 @@ TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
    ptN->Draw();
 
    c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_phi.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
+   c->Clear();
+
+
+   max1 = hMC_muPt1->GetMaximum();
+   max2 = hData_muPt1->GetMaximum();
+   
+   if(max1<max2) hData_muPt1->Draw();
+   else hMC_muPt1->Draw();
+   hMC_muPt1->Draw("same");
+   hData_muPt1->Draw("same");
+
+   hData_muPt1->SetXTitle("#mu p_{T} (GeV)");
+   hMC_muPt1->SetXTitle("#mu p_{T} (GeV)");
+
+   leg.Draw();
+   pt->Draw();
+   pt2->Draw();
+   hMC_muPt1->SetMinimum(0);
+   hData_muPt1->SetMinimum(0);
+
+   ptN->Draw();
+
+   c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_muPt1.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
+   c->Clear();
+
+   max1 = hMC_muPt2->GetMaximum();
+   max2 = hData_muPt2->GetMaximum();
+   
+   if(max1<max2) hData_muPt2->Draw();
+   else hMC_muPt2->Draw();
+   hMC_muPt2->Draw("same");
+   hData_muPt2->Draw("same");
+
+   hData_muPt2->SetXTitle("#mu p_{T} (GeV)");
+   hMC_muPt2->SetXTitle("#mu p_{T} (GeV)");
+
+   leg.Draw();
+   pt->Draw();
+   pt2->Draw();
+   hMC_muPt2->SetMinimum(0);
+   hData_muPt2->SetMinimum(0);
+
+   ptN->Draw();
+
+   c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_muPt2.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
    c->Clear();
 
 
@@ -599,9 +680,19 @@ void loop()
 
    hDataWidth->SetXTitle("Z p_{T} (GeV)");
    hDataWidth->SetYTitle("M_{#mu#mu} width (GeV)");
-   hDataWidth->Draw("e");
+   
    hDataWidth->SetMinimum(0);
    hDataWidth->SetMaximum(6);
+   hMCWidth->SetMinimum(0);
+   hMCWidth->SetMaximum(6);
+
+   hDataWidth_1->SetMinimum(0);
+   hDataWidth_1->SetMaximum(6);
+   hMCWidth_1->SetMinimum(0);
+   hMCWidth_1->SetMaximum(6);
+
+   hDataWidth->Draw("e");
+
    hMCWidth->SetLineColor(kRed);
    hMCWidth->SetMarkerColor(kRed);
    hDataWidth->SetLineColor(kBlack);
@@ -735,9 +826,16 @@ void loopHiBin()
    //hDataMass->SetXTitle("Centrality Bin");
    hDataWidth->SetXTitle("Centrality (%)");
    hDataWidth->SetYTitle("M_{#mu#mu} width (GeV)");
-   hDataWidth->Draw("e");
    hDataWidth->SetMinimum(0);
    hDataWidth->SetMaximum(8);
+   hMCWidth->SetMinimum(0);
+   hMCWidth->SetMaximum(8);
+   hDataWidth_1->SetMinimum(0);
+   hDataWidth_1->SetMaximum(8);
+   hMCWidth_1->SetMinimum(0);
+   hMCWidth_1->SetMaximum(8);
+
+   hDataWidth->Draw("e");
    hMCWidth->SetLineColor(kRed);
    hMCWidth->SetMarkerColor(kRed);
    hDataWidth->SetLineColor(kBlack);
