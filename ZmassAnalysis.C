@@ -450,7 +450,7 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    legMuPt.SetFillColorAlpha(kWhite,0);
    legMuPt.SetLineColor(kBlack);
    legMuPt.SetLineWidth(1);
-   legMuPt.Draw();
+   //legMuPt.Draw();
 
    //TLatex *pt = new TLatex(0.18,0.82,Form("%d < Centrality < %d",centL,centH));
    TLatex *pt = new TLatex(0.18,0.82,Form("%.0f %%< Centrality < %.0f %%",cent_diff[centL],cent_diff[centH]));
@@ -466,16 +466,16 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    pt2->SetNDC(kTRUE);
    pt2->Draw();
 
-   TLatex *ptp = new TLatex(0.18,0.84,Form("%.0f %%< Centrality < %.0f %%",cent_diff[centL],cent_diff[centH]));
+   TLatex *ptp = new TLatex(0.18,0.85,Form("%.0f %%< Centrality < %.0f %%",cent_diff[centL],cent_diff[centH]));
    ptp->SetTextFont(42);
    ptp->SetTextSize(0.025);
    ptp->SetNDC(kTRUE);
-   ptp->Draw();
+   //ptp->Draw();
    TLatex *ptp2 = new TLatex(0.18,0.89,Form("%.1f < Z p_{T} < %.1f",ptL,ptH));
    ptp2->SetTextFont(42);
    ptp2->SetTextSize(0.025);
    ptp2->SetNDC(kTRUE);
-   ptp2->Draw();
+   //ptp2->Draw();
 
    TLatex *ptN = new TLatex(0.6,0.97,Form("N_{MC} = %d, N_{Data} = %d",countM,countD));
    ptN->SetTextFont(42);
