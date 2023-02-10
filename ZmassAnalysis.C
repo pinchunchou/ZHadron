@@ -557,9 +557,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hMC_muPt1->Draw("hist same");
    hData_muPt1->Draw("same");
 
-   hData_muPt1->SetXTitle("#mu_{1} p_{T} (GeV)");
-   hMC_muPt1->SetXTitle("#mu_{1} p_{T} (GeV)");
-   hMC_genMuPt1->SetXTitle("#mu_{1} p_{T} (GeV)");
+   hData_muPt1->SetXTitle("p_{T,#mu_{1}} (GeV)");
+   hMC_muPt1->SetXTitle("p_{T,#mu_{1}} (GeV)");
+   hMC_genMuPt1->SetXTitle("p_{T,#mu_{1}} (GeV)");
 
    legMuPt.Draw();
    ptp->Draw();
@@ -585,9 +585,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hMC_muPt2->Draw("hist same");
    hData_muPt2->Draw("same");
    
-   hData_muPt2->SetXTitle("#mu_{2} p_{T} (GeV)");
-   hMC_muPt2->SetXTitle("#mu_{2} p_{T} (GeV)");
-   hMC_genMuPt2->SetXTitle("#mu_{2} p_{T} (GeV)");
+   hData_muPt2->SetXTitle("p_{T,#mu_{2}} (GeV)");
+   hMC_muPt2->SetXTitle("p_{T,#mu_{2}} (GeV)");
+   hMC_genMuPt2->SetXTitle("p_{T,#mu_{2}} (GeV)");
 
    legMuPt.Draw();
    ptp->Draw();
