@@ -4,9 +4,13 @@
 #include <TNtuple.h>
 #include <TH2D.h>
 #include <TMath.h>
+#include <TSystem.h>
+#include <TSystemFile.h>
+#include <TSystemDirectory.h>
 #include <TLorentzVector.h>
 
 #define M_MU 0.1056583755
+#define PI 3.1415926535897932384626433832795
 
 double dphi(double phi1,double phi2)
 {
@@ -42,7 +46,12 @@ class ZhadronData
    vector<double> muPhi1;
    vector<double> muPhi2;
    vector<double> muPt1;
-   vector<double> muPt2;   
+   vector<double> muPt2;
+
+   vector<double> muDeta;
+   vector<double> muDphi;
+   vector<double> muDR;
+   vector<double> muDphiS;
 
    vector<double> genMuPt1;
    vector<double> genMuPt2;
@@ -50,6 +59,12 @@ class ZhadronData
    vector<double> genMuEta2;
    vector<double> genMuPhi1;
    vector<double> genMuPhi2;
+
+   vector<double> genMuDeta;
+   vector<double> genMuDphi;
+   vector<double> genMuDR;
+   vector<double> genMuDphiS;
+
    int hiBin;
    float hiHF;
 
@@ -87,6 +102,17 @@ class ZhadronData
       t->Branch("genMuEta2",&genMuEta2);
       t->Branch("genMuPhi1",&genMuPhi1);
       t->Branch("genMuPhi2",&genMuPhi2);
+
+      t->Branch("muDeta",&muDeta);
+      t->Branch("muDphi",&muDphi);
+      t->Branch("muDR",&muDR);
+      t->Branch("muDphiS",&muDphiS);
+
+      t->Branch("genMuDeta",&genMuDeta);
+      t->Branch("genMuDphi",&genMuDphi);
+      t->Branch("genMuDR",&genMuDR);
+      t->Branch("genMuDphiS",&genMuDphiS);
+
    };
    
    void clear() {
@@ -119,6 +145,14 @@ class ZhadronData
       genMuPhi1.clear();
       genMuPhi2.clear();
 
+      muDeta.clear();
+      muDphi.clear();
+      muDR.clear();
+      muDphiS.clear();
+      genMuDeta.clear();
+      genMuDphi.clear();
+      genMuDR.clear();
+      genMuDphiS.clear();
    }
    
 };
@@ -174,6 +208,18 @@ void Zhadron_singleFile(const char *dirname, TString fname, int genornot, TNtupl
                       data.genMuEta2.push_back(f.muTree.Gen_eta[igen2]);
                       data.genMuPhi1.push_back(f.muTree.Gen_phi[igen1]);
                       data.genMuPhi2.push_back(f.muTree.Gen_phi[igen2]);
+
+                      double genDeltaMuEta = f.muTree.Gen_eta[igen1] - f.muTree.Gen_eta[igen2];
+                      double genDeltaMuPhi = dphi(f.muTree.Gen_phi[igen1], f.muTree.Gen_phi[igen2]);
+
+                      data.genMuDeta.push_back(genDeltaMuEta);
+                      data.genMuDphi.push_back(genDeltaMuPhi);
+                      data.genMuDR.push_back(sqrt(genDeltaMuEta*genDeltaMuEta+genDeltaMuPhi*genDeltaMuPhi));
+
+                      double genDeltaPhiStar = tan((PI-genDeltaMuPhi)/2)*sqrt(1-tanh(genDeltaMuEta/2)*tanh(genDeltaMuEta/2));
+
+                      data.genMuDphiS.push_back(genDeltaPhiStar);
+
                    }
               }
           }   
@@ -182,47 +228,57 @@ void Zhadron_singleFile(const char *dirname, TString fname, int genornot, TNtupl
 
      // loop over RECO information (dimuons)
      for (int ipair=0;ipair<f.muTree.Di_npair;ipair++) {
-        //cout <<ipair<<" "<<f.muTree.Di_mass[ipair]<<endl;
-   if (f.muTree.Di_charge1[ipair]==f.muTree.Di_charge2[ipair]) continue;
-   if (fabs(f.muTree.Di_eta1[ipair])>2.4) continue;
-   if (fabs(f.muTree.Di_eta2[ipair])>2.4) continue;
-   if (fabs(f.muTree.Di_pt1[ipair])<20) continue;
-   if (fabs(f.muTree.Di_pt2[ipair])<20) continue;
-   data.zMass.push_back(f.muTree.Di_mass[ipair]);
-   data.zEta.push_back(f.muTree.Di_eta[ipair]);
-   data.zPhi.push_back(f.muTree.Di_phi[ipair]);
-   data.zPt.push_back(f.muTree.Di_pt[ipair]);
+         //cout <<ipair<<" "<<f.muTree.Di_mass[ipair]<<endl;
+         if (f.muTree.Di_charge1[ipair]==f.muTree.Di_charge2[ipair]) continue;
+         if (fabs(f.muTree.Di_eta1[ipair])>2.4) continue;
+         if (fabs(f.muTree.Di_eta2[ipair])>2.4) continue;
+         if (fabs(f.muTree.Di_pt1[ipair])<20) continue;
+         if (fabs(f.muTree.Di_pt2[ipair])<20) continue;
+         data.zMass.push_back(f.muTree.Di_mass[ipair]);
+         data.zEta.push_back(f.muTree.Di_eta[ipair]);
+         data.zPhi.push_back(f.muTree.Di_phi[ipair]);
+         data.zPt.push_back(f.muTree.Di_pt[ipair]);
 
-   data.muEta1.push_back(f.muTree.Di_eta1[ipair]);
-   data.muEta2.push_back(f.muTree.Di_eta2[ipair]);
-   data.muPhi1.push_back(f.muTree.Di_phi1[ipair]);
-   data.muPhi2.push_back(f.muTree.Di_phi2[ipair]);
+         data.muEta1.push_back(f.muTree.Di_eta1[ipair]);
+         data.muEta2.push_back(f.muTree.Di_eta2[ipair]);
+         data.muPhi1.push_back(f.muTree.Di_phi1[ipair]);
+         data.muPhi2.push_back(f.muTree.Di_phi2[ipair]);
 
-   data.muPt1.push_back(f.muTree.Di_pt1[ipair]);
-   data.muPt2.push_back(f.muTree.Di_pt2[ipair]);
+         data.muPt1.push_back(f.muTree.Di_pt1[ipair]);
+         data.muPt2.push_back(f.muTree.Di_pt2[ipair]);
 
-   data.hiBin=f.hi.hiBin;
-   data.hiHF=f.hi.hiHF;
-   nt->Fill(f.muTree.Di_mass[ipair],f.muTree.Di_pt[ipair], f.muTree.Di_eta[ipair], f.muTree.Di_phi[ipair]);
+         double deltaMuEta = f.muTree.Di_eta1[ipair] - f.muTree.Di_eta2[ipair];
+         double deltaMuPhi = dphi(f.muTree.Di_phi1[ipair], f.muTree.Di_phi2[ipair]);
+
+         data.muDeta.push_back(deltaMuEta);
+         data.muDphi.push_back(deltaMuPhi);
+         data.muDR.push_back(sqrt(deltaMuEta*deltaMuEta+deltaMuPhi*deltaMuPhi));
+
+         double deltaPhiStar = tan((PI-deltaMuPhi)/2)*sqrt(1-tanh(deltaMuEta/2)*tanh(deltaMuEta/2));
+
+         data.muDphiS.push_back(deltaPhiStar);
+
+         data.hiBin=f.hi.hiBin;
+         data.hiHF=f.hi.hiHF;
+         nt->Fill(f.muTree.Di_mass[ipair],f.muTree.Di_pt[ipair], f.muTree.Di_eta[ipair], f.muTree.Di_phi[ipair]);
      }
      
      if (data.zMass.size()>0&&data.zPt.at(0)>30) {
-        for (int itrack=0;itrack<f.tracks.trkPt->size();itrack++) {
-      if (!f.tracks.highPurity) continue;
-           double deltaPhi = dphi(data.zPhi.at(0),f.tracks.trkPhi->at(itrack)-TMath::Pi());
-      double deltaEta = fabs(data.zEta.at(0)-f.tracks.trkEta->at(itrack));
-      h2D->Fill(deltaEta,deltaPhi,0.25);
-      h2D->Fill(-deltaEta,deltaPhi,0.25);
-      h2D->Fill(-deltaEta,-deltaPhi,0.25);
-      h2D->Fill(deltaEta,-deltaPhi,0.25);
-      data.trackDphi.push_back(deltaPhi);
-      data.trackDeta.push_back(deltaEta);
-      data.trackPt.push_back(f.tracks.trkPt->at(itrack));
-      data.trackPDFId.push_back(f.tracks.trkPDFId->at(itrack));
-      data.trackPhi.push_back(f.tracks.trkPhi->at(itrack));
-      data.trackEta.push_back(f.tracks.trkEta->at(itrack));
-     }
-
+         for (long unsigned int itrack=0;itrack<f.tracks.trkPt->size();itrack++) {
+            if (!f.tracks.highPurity) continue;
+            double deltaPhi = dphi(data.zPhi.at(0),f.tracks.trkPhi->at(itrack)-TMath::Pi());
+            double deltaEta = fabs(data.zEta.at(0)-f.tracks.trkEta->at(itrack));
+            h2D->Fill(deltaEta,deltaPhi,0.25);
+            h2D->Fill(-deltaEta,deltaPhi,0.25);
+            h2D->Fill(-deltaEta,-deltaPhi,0.25);
+            h2D->Fill(deltaEta,-deltaPhi,0.25);
+            data.trackDphi.push_back(deltaPhi);
+            data.trackDeta.push_back(deltaEta);
+            data.trackPt.push_back(f.tracks.trkPt->at(itrack));
+            data.trackPDFId.push_back(f.tracks.trkPDFId->at(itrack));
+            data.trackPhi.push_back(f.tracks.trkPhi->at(itrack));
+            data.trackEta.push_back(f.tracks.trkEta->at(itrack));
+         }
      }
      t->Fill();
      data.clear();
@@ -250,7 +306,7 @@ void Zhadron_loop_part(string infname, string outfname="outputMC.root", int geno
    TNtuple *nt = new TNtuple("ntZ","Z tree","mass:pt:eta:phi");
    TTree *t = new TTree("t","tree");
    
-   TH2D *h2D = new TH2D("h2D","",100,-6,6,100,-3.14159,3.14159);
+   TH2D *h2D = new TH2D("h2D","",100,-6,6,100,-PI,PI);
    
    
    

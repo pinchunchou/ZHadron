@@ -612,8 +612,8 @@ void ZmassMinuit(){
    style();
 
    ZmassMinuit_single();
-   loop();
-   loopHiBin();
+   //loop();
+   //loopHiBin();
    //ZmassMinuit_single(0,20);
 
 }
