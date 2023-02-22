@@ -147,8 +147,7 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    TH1D *hData_phi = new TH1D("hData_phi","",binsize,-3.1415926,3.1415926);
    TH1D *hMC_phi = new TH1D("hMC_phi","",binsize,-3.1415926,3.1415926);
     
-   
-   
+     
    TChain *tMC = new TChain("t");
    tMC->Add("/eos/cms/store/group/phys_heavyions_ops/pchou/MC/*.root?#t");
    
@@ -162,11 +161,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    //TFile *infData = new TFile("/eos/cms/store/group/phys_heavyions_ops/pchou/output_doubleMu50.root");
    //TFile *infData = new TFile("/eos/cms/store/group/phys_heavyions_ops/pchou/output_doubleMu0000.root");
    //TFile *infMC = new TFile("/eos/cms/store/group/phys_heavyions_ops/pchou/outputMC.root");
-
    
    TH1D *hData_pt = new TH1D("hData_pt","",binsize,0,200);
    TH1D *hMC_pt = new TH1D("hMC_pt","",binsize,0,200);
-
 
    TH1D *hData_muPt1 = new TH1D("hData_muPt1","",40,0,120);
    TH1D *hMC_muPt1 = new TH1D("hMC_muPt1","",40,0,120);
@@ -176,6 +173,20 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    TH1D *hMC_genMuPt1 = new TH1D("hMC_genMuPt1","",40,0,120);
    TH1D *hMC_genMuPt2 = new TH1D("hMC_genMuPt2","",40,0,120);
+
+   TH1D *hData_muDeta = new TH1D("hData_muDeta","",40,-6.284,6.284);
+   TH1D *hMC_muDeta = new TH1D("hMC_muDeta","",40,-6.284,6.284);
+   TH1D *hMC_genMuDeta = new TH1D("hMC_genMuDeta","",40,-6.284,6.284);
+   TH1D *hData_muDphi = new TH1D("hData_muDphi","",40,-3.1415926,3.1415926);
+   TH1D *hMC_muDphi = new TH1D("hMC_muDphi","",40,-3.1415926,3.1415926);
+   TH1D *hMC_genMuDphi = new TH1D("hMC_genMuDphi","",40,-3.1415926,3.1415926);
+
+   TH1D *hData_muDR = new TH1D("hData_muDR","",40,0,7.025);
+   TH1D *hMC_muDR = new TH1D("hMC_muDR","",40,0,7.025);
+   TH1D *hMC_genMuDR = new TH1D("hMC_genMuDR","",40,0,7.025);
+   TH1D *hData_muDphiS = new TH1D("hData_muDphiS","",40,-1,1);
+   TH1D *hMC_muDphiS = new TH1D("hMC_muDphiS","",40,-1,1);
+   TH1D *hMC_genMuDphiS = new TH1D("hMC_genMuDphiS","",40,-1,1);
    
    //tData->Draw("zMass>>hData",Form("zPt>%f&&zPt<%f&&hiBin>=%d&&hiBin<%d",ptL,ptH,centL,centH));
    //tData->Draw("zMass>>hDataSame",Form("zPt>%f&&zPt<%f&&hiBin>=%d&&hiBin<%d",ptL,ptH,centL,centH));
@@ -217,6 +228,22 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    tMC->Draw("genMuPt1>>hMC_genMuPt1",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
    tMC->Draw("genMuPt2>>hMC_genMuPt2",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
 
+   tData->Draw("muDeta>>hData_muDeta",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("muDeta>>hMC_muDeta",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("genMuDeta>>hMC_genMuDeta",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+
+   tData->Draw("muDphi>>hData_muDphi",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("muDphi>>hMC_muDphi",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("genMuDphi>>hMC_genMuDphi",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+
+   tData->Draw("muDR>>hData_muDR",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("muDR>>hMC_muDR",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("genMuDR>>hMC_genMuDR",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+
+   tData->Draw("muDphiS>>hData_muDphiS",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("muDphiS>>hMC_muDphiS",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("genMuDphiS>>hMC_genMuDphiS",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+
    //int countD = tData->GetEntries(Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
    //std::cout<<"Data = "<<countD<<std::endl;
    //int countM = tMC->GetEntries(Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
@@ -248,6 +275,20 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hMC_genMuPt1->Sumw2();
    hMC_genMuPt2->Sumw2();
 
+   hData_muDeta->Sumw2();
+   hData_muDphi->Sumw2();
+   hData_muDR->Sumw2();
+   hData_muDphiS->Sumw2();
+   hMC_muDeta->Sumw2();
+   hMC_muDphi->Sumw2(); 
+   hMC_muDR->Sumw2(); 
+   hMC_muDphiS->Sumw2();
+
+   hMC_genMuDeta->Sumw2();
+   hMC_genMuDphi->Sumw2();
+   hMC_genMuDR->Sumw2();
+   hMC_genMuDphiS->Sumw2();
+   
    hMC_eta->SetMarkerStyle(24);
    hMC_phi->SetMarkerStyle(24);
    hMC_pt->SetMarkerStyle(24);
@@ -256,6 +297,16 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    hMC_genMuPt1->SetMarkerStyle(25);
    hMC_genMuPt2->SetMarkerStyle(25);
+
+   hMC_genMuDeta->SetMarkerStyle(25);
+   hMC_genMuDphi->SetMarkerStyle(25);
+   hMC_genMuDR->SetMarkerStyle(25);
+   hMC_genMuDphiS->SetMarkerStyle(25);
+
+   hMC_muDeta->SetMarkerStyle(24);
+   hMC_muDphi->SetMarkerStyle(24);
+   hMC_muDR->SetMarkerStyle(24);
+   hMC_muDphiS->SetMarkerStyle(24);
    
 //   hData->Draw("e");
 //   hMC->Draw("e same");
@@ -287,6 +338,11 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hData_muPt2->SetMarkerColor(kBlack);
    //hMC_muPt2->SetMarkerColor(kRed);
 
+   hData_muDeta->SetMarkerColor(kBlack);
+   hData_muDphi->SetMarkerColor(kBlack);
+   hData_muDR->SetMarkerColor(kBlack);
+   hData_muDphiS->SetMarkerColor(kBlack);
+
    hData_eta->SetLineColor(kBlack);
    hMC_eta->SetLineColor(kRed);
    hData_phi->SetLineColor(kBlack);
@@ -299,8 +355,23 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hData_muPt2->SetLineColor(kBlack);
    //hMC_muPt2->SetLineColor(kRed);
 
+   hData_muDeta->SetLineColor(kBlack);
+   hData_muDphi->SetLineColor(kBlack);
+   hData_muDR->SetLineColor(kBlack);
+   hData_muDphiS->SetLineColor(kBlack);
+
+   //hMC_muDeta->SetLineColor(kRed);
+   //hMC_muDphi->SetLineColor(kRed);
+   //hMC_muDR->SetLineColor(kRed);
+   //hMC_muDphiS->SetLineColor(kRed);
+
    hData_muPt1->SetLineWidth(2);
    hData_muPt2->SetLineWidth(2);
+
+   hData_muDeta->SetLineWidth(2);
+   hData_muDphi->SetLineWidth(2);
+   hData_muDR->SetLineWidth(2);
+   hData_muDphiS->SetLineWidth(2);
 
    hMC_genMuPt1->SetLineColor(TColor::GetColor("#004488"));
    hMC_muPt1->SetLineColor(TColor::GetColor("#994455"));
@@ -315,6 +386,34 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hMC_muPt2->SetFillColor(TColor::GetColor("#EE99AA"));
    hMC_genMuPt2->SetFillStyle(3345); hMC_genMuPt2->SetLineWidth(3);
    hMC_muPt2->SetFillStyle(3354); hMC_muPt2->SetLineWidth(3);
+
+   hMC_genMuDeta->SetLineColor(TColor::GetColor("#004488"));
+   hMC_muDeta->SetLineColor(TColor::GetColor("#994455"));
+   hMC_genMuDeta->SetFillColor(TColor::GetColor("#6699CC"));
+   hMC_muDeta->SetFillColor(TColor::GetColor("#EE99AA"));
+   hMC_genMuDeta->SetFillStyle(3345); hMC_genMuDeta->SetLineWidth(3);
+   hMC_muDeta->SetFillStyle(3354); hMC_muDeta->SetLineWidth(3);
+
+   hMC_genMuDphi->SetLineColor(TColor::GetColor("#004488"));
+   hMC_muDphi->SetLineColor(TColor::GetColor("#994455"));
+   hMC_genMuDphi->SetFillColor(TColor::GetColor("#6699CC"));
+   hMC_muDphi->SetFillColor(TColor::GetColor("#EE99AA"));
+   hMC_genMuDphi->SetFillStyle(3345); hMC_genMuDphi->SetLineWidth(3);
+   hMC_muDphi->SetFillStyle(3354); hMC_muDphi->SetLineWidth(3);
+
+   hMC_genMuDR->SetLineColor(TColor::GetColor("#004488"));
+   hMC_muDR->SetLineColor(TColor::GetColor("#994455"));
+   hMC_genMuDR->SetFillColor(TColor::GetColor("#6699CC"));
+   hMC_muDR->SetFillColor(TColor::GetColor("#EE99AA"));
+   hMC_genMuDR->SetFillStyle(3345); hMC_genMuDR->SetLineWidth(3);
+   hMC_muDR->SetFillStyle(3354); hMC_muDR->SetLineWidth(3);
+
+   hMC_genMuDphiS->SetLineColor(TColor::GetColor("#004488"));
+   hMC_muDphiS->SetLineColor(TColor::GetColor("#994455"));
+   hMC_genMuDphiS->SetFillColor(TColor::GetColor("#6699CC"));
+   hMC_muDphiS->SetFillColor(TColor::GetColor("#EE99AA"));
+   hMC_genMuDphiS->SetFillStyle(3345); hMC_genMuDphiS->SetLineWidth(3);
+   hMC_muDphiS->SetFillStyle(3354); hMC_muDphiS->SetLineWidth(3);
 
    //hMC->GetXaxis()->SetTitleSize(48);
    //hMC->GetXaxis()->SetTitleFont(43);
@@ -364,6 +463,19 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    hMC_genMuPt1->Scale(1./hMC_genMuPt1->Integral("width"));
    hMC_genMuPt2->Scale(1./hMC_genMuPt2->Integral("width"));
+
+   hData_muDeta->Scale(1./hData_muDeta->Integral("width"));
+   hData_muDphi->Scale(1./hData_muDphi->Integral("width"));
+   hData_muDR->Scale(1./hData_muDR->Integral("width"));
+   hData_muDphiS->Scale(1./hData_muDphiS->Integral("width"));
+   hMC_muDeta->Scale(1./hMC_muDeta->Integral("width"));
+   hMC_muDphi->Scale(1./hMC_muDphi->Integral("width"));
+   hMC_muDR->Scale(1./hMC_muDR->Integral("width"));
+   hMC_muDphiS->Scale(1./hMC_muDphiS->Integral("width"));
+   hMC_genMuDeta->Scale(1./hMC_genMuDeta->Integral("width"));
+   hMC_genMuDphi->Scale(1./hMC_genMuDphi->Integral("width"));
+   hMC_genMuDR->Scale(1./hMC_genMuDR->Integral("width"));
+   hMC_genMuDphiS->Scale(1./hMC_genMuDphiS->Integral("width"));
 
    ////style();
    
@@ -600,6 +712,120 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_muPt2.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
    c->Clear();
+
+   max1 = hMC_muDeta->GetMaximum();
+   max2 = hData_muDeta->GetMaximum();
+   max3 = hMC_genMuDeta->GetMaximum();
+
+   if(max1<max2&&max3<max2) hData_muDeta->Draw();
+   else if(max1<max3&&max2<max3) hMC_genMuDeta->Draw("hist");
+   else hMC_muDeta->Draw("hist");
+   
+   hMC_genMuDeta->Draw("hist same");
+   hMC_muDeta->Draw("hist same");
+   hData_muDeta->Draw("same");
+   
+   hData_muDeta->SetXTitle("#Delta#eta_{#mu#mu}");
+   hMC_muDeta->SetXTitle("#Delta#eta_{#mu#mu}");
+   hMC_genMuDeta->SetXTitle("#Delta#eta_{#mu#mu}");
+
+   legMuPt.Draw();
+   ptp->Draw();
+   ptp2->Draw();
+   hMC_muDeta->SetMinimum(0);
+   hData_muDeta->SetMinimum(0);
+   hMC_genMuDeta->SetMinimum(0);
+
+   ptN->Draw();
+
+   c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_muDeta.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
+   c->Clear();
+
+   max1 = hMC_muDphi->GetMaximum();
+   max2 = hData_muDphi->GetMaximum();
+   max3 = hMC_genMuDphi->GetMaximum();
+
+   if(max1<max2&&max3<max2) hData_muDphi->Draw();
+   else if(max1<max3&&max2<max3) hMC_genMuDphi->Draw("hist");
+   else hMC_muDphi->Draw("hist");
+   
+   hMC_genMuDphi->Draw("hist same");
+   hMC_muDphi->Draw("hist same");
+   hData_muDphi->Draw("same");
+   
+   hData_muDphi->SetXTitle("#Delta#phi_{#mu#mu}");
+   hMC_muDphi->SetXTitle("#Delta#phi_{#mu#mu}");
+   hMC_genMuDphi->SetXTitle("#Delta#phi_{#mu#mu}");
+
+   legMuPt.Draw();
+   ptp->Draw();
+   ptp2->Draw();
+   hMC_muDphi->SetMinimum(0);
+   hData_muDphi->SetMinimum(0);
+   hMC_genMuDphi->SetMinimum(0);
+
+   ptN->Draw();
+
+   c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_muDphi.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
+   c->Clear();
+
+   max1 = hMC_muDR->GetMaximum();
+   max2 = hData_muDR->GetMaximum();
+   max3 = hMC_genMuDR->GetMaximum();
+
+   if(max1<max2&&max3<max2) hData_muDR->Draw();
+   else if(max1<max3&&max2<max3) hMC_genMuDR->Draw("hist");
+   else hMC_muDR->Draw("hist");
+   
+   hMC_genMuDR->Draw("hist same");
+   hMC_muDR->Draw("hist same");
+   hData_muDR->Draw("same");
+   
+   hData_muDR->SetXTitle("#Delta R");
+   hMC_muDR->SetXTitle("#Delta R");
+   hMC_genMuDR->SetXTitle("#Delta R");
+
+   legMuPt.Draw();
+   ptp->Draw();
+   ptp2->Draw();
+   hMC_muDR->SetMinimum(0);
+   hData_muDR->SetMinimum(0);
+   hMC_genMuDR->SetMinimum(0);
+
+   ptN->Draw();
+
+   c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_muDR.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
+   c->Clear();
+
+   max1 = hMC_muDphiS->GetMaximum();
+   max2 = hData_muDphiS->GetMaximum();
+   max3 = hMC_genMuDphiS->GetMaximum();
+
+   if(max1<max2&&max3<max2) hData_muDphiS->Draw();
+   else if(max1<max3&&max2<max3) hMC_genMuDphiS->Draw("hist");
+   else hMC_muDphiS->Draw("hist");
+   
+   hMC_genMuDphiS->Draw("hist same");
+   hMC_muDphiS->Draw("hist same");
+   hData_muDphiS->Draw("same");
+   
+   hData_muDphiS->SetXTitle("#Delta#phi^{*}");
+   hMC_muDphiS->SetXTitle("#Delta#phi^{*}");
+   hMC_genMuDphiS->SetXTitle("#Delta#phi^{*}");
+
+   legMuPt.Draw();
+   ptp->Draw();
+   ptp2->Draw();
+   hMC_muDphiS->SetMinimum(0);
+   hData_muDphiS->SetMinimum(0);
+   hMC_genMuDphiS->SetMinimum(0);
+
+   ptN->Draw();
+
+   c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_muDphiS.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
+   c->Clear();
+
+
 
    if(ptL==0&&(ptH==200||ptH==2000)){
       ////style();

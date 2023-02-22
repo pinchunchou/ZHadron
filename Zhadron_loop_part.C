@@ -22,6 +22,14 @@ double dphi(double phi1,double phi2)
  return a;
 }
 
+double dphi2(double phi1,double phi2)
+{
+ double a=phi1-phi2;
+ while (a<0) a+=2*TMath::Pi();
+ while (a>2*TMath::Pi()) a-=2*TMath::Pi();
+   
+ return a;
+}
 
 class ZhadronData
 {
@@ -210,7 +218,7 @@ void Zhadron_singleFile(const char *dirname, TString fname, int genornot, TNtupl
                       data.genMuPhi2.push_back(f.muTree.Gen_phi[igen2]);
 
                       double genDeltaMuEta = f.muTree.Gen_eta[igen1] - f.muTree.Gen_eta[igen2];
-                      double genDeltaMuPhi = dphi(f.muTree.Gen_phi[igen1], f.muTree.Gen_phi[igen2]);
+                      double genDeltaMuPhi = dphi2(f.muTree.Gen_phi[igen1], f.muTree.Gen_phi[igen2]);
 
                       data.genMuDeta.push_back(genDeltaMuEta);
                       data.genMuDphi.push_back(genDeltaMuPhi);
@@ -248,7 +256,7 @@ void Zhadron_singleFile(const char *dirname, TString fname, int genornot, TNtupl
          data.muPt2.push_back(f.muTree.Di_pt2[ipair]);
 
          double deltaMuEta = f.muTree.Di_eta1[ipair] - f.muTree.Di_eta2[ipair];
-         double deltaMuPhi = dphi(f.muTree.Di_phi1[ipair], f.muTree.Di_phi2[ipair]);
+         double deltaMuPhi = dphi2(f.muTree.Di_phi1[ipair], f.muTree.Di_phi2[ipair]);
 
          data.muDeta.push_back(deltaMuEta);
          data.muDphi.push_back(deltaMuPhi);
