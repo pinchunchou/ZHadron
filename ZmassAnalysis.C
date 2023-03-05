@@ -130,24 +130,17 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    int binsize = 40;
    if(centL==3&&centH==4) binsize = 30;
    if(ptL>55) binsize = 25;
+
    TH1D *hData = new TH1D("hData","",binsize,81.2,101.2);
-   //TH1D *hDataSame = new TH1D("hDataSame","",40,81.2,101.2);
    TH1D *hMC = new TH1D("hMC","",binsize,81.2,101.2);
-   //TH1D *hMCSame = new TH1D("hMCSame","",40,81.2,101.2);
 
    TCanvas *c = new TCanvas("c","",800,800);
-
-   //style();
-
-   // TTree *tData = (TTree*)infData->Get("t");
-   //TTree *tMC = (TTree*)infMC->Get("t");
 
    TH1D *hData_eta = new TH1D("hData_eta","",binsize,-8,8);
    TH1D *hMC_eta = new TH1D("hMC_eta","",binsize,-8,8);
    
    TH1D *hData_phi = new TH1D("hData_phi","",binsize,-3.1415926,3.1415926);
    TH1D *hMC_phi = new TH1D("hMC_phi","",binsize,-3.1415926,3.1415926);
-    
      
    TChain *tMC = new TChain("t");
    tMC->Add("/eos/cms/store/group/phys_heavyions_ops/pchou/MC/*.root?#t");
@@ -156,12 +149,16 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    tData->Add(Form("/eos/cms/store/group/phys_heavyions_ops/pchou/%s/*.root?#t",typeofdata));
 
    TH1D *h = new TH1D("h","",100,0,1);
+
    //TFile *infData = new TFile("output_doubleMu_221107.root");
    //TFile *infMC = new TFile("outputMC1.root");
 
    //TFile *infData = new TFile("/eos/cms/store/group/phys_heavyions_ops/pchou/output_doubleMu50.root");
    //TFile *infData = new TFile("/eos/cms/store/group/phys_heavyions_ops/pchou/output_doubleMu0000.root");
    //TFile *infMC = new TFile("/eos/cms/store/group/phys_heavyions_ops/pchou/outputMC.root");
+
+   //TTree *tData = (TTree*)infData->Get("t");
+   //TTree *tMC = (TTree*)infMC->Get("t");
    
    TH1D *hData_pt = new TH1D("hData_pt","",binsize,0,200);
    TH1D *hMC_pt = new TH1D("hMC_pt","",binsize,0,200);
@@ -197,74 +194,62 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    TH1D *hData_muDphiS = new TH1D("hData_muDphiS","",40,-1,1);
    TH1D *hMC_muDphiS = new TH1D("hMC_muDphiS","",40,-1,1);
    TH1D *hMC_genMuDphiS = new TH1D("hMC_genMuDphiS","",40,-1,1);
+
+   TCut zMassRange = "zMass>75";
+   TCut zPtRange = Form("zPt>%f&&zPt<%f",ptL,ptH);
+   TCut hiHFRange = Form("hiHF<=%.4f&&hiHF>%.4f",hf_diff[centL],hf_diff[centH]);
    
-   //tData->Draw("zMass>>hData",Form("zPt>%f&&zPt<%f&&hiBin>=%d&&hiBin<%d",ptL,ptH,centL,centH));
-   //tData->Draw("zMass>>hDataSame",Form("zPt>%f&&zPt<%f&&hiBin>=%d&&hiBin<%d",ptL,ptH,centL,centH));
-
-   tData->Draw("zMass>>hData",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   //tData->Draw("zMass>>hDataSame",Form("zPt>%f&&zPt<%f&&hiHF<=%f&&hiHF>%f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-
+   tData->Draw("zMass>>hData",zMassRange&&zPtRange&&hiHFRange);
    hData->Sumw2();
-   //hDataSame->Sumw2();
 
-   //hDataSame->SetLineColor(2);
-   //hDataSame->SetMarkerColor(2);
-
-
-   //tMC->Draw("zMass>>hMC",Form("zPt>%f&&zPt<%f&&hiBin>=%d&&hiBin<%d",ptL,ptH,centL,centH));
-   //tMC->Draw("zMass>>hMCSame",Form("zPt>%f&&zPt<%f&&hiBin>=%d&&hiBin<%d",ptL,ptH,centL,centH));
-
-   tMC->Draw("zMass>>hMC",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   //tMC->Draw("zMass>>hMCSame",Form("zPt>%f&&zPt<%f&&hiHF<=%f&&hiHF>%f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-
+   tMC->Draw("zMass>>hMC",zMassRange&&zPtRange&&hiHFRange);
    hMC->Sumw2();
-   //hMCSame->Sumw2();
 
-   tData->Draw("zEta>>hData_eta",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("zEta>>hMC_eta",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tData->Draw("zEta>>hData_eta",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("zEta>>hMC_eta",zMassRange&&zPtRange&&hiHFRange);
 
-   tData->Draw("zPhi>>hData_phi",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("zPhi>>hMC_phi",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tData->Draw("zPhi>>hData_phi",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("zPhi>>hMC_phi",zMassRange&&zPtRange&&hiHFRange);
 
-   tData->Draw("zPt>>hData_pt",Form("hiHF<=%.4f&&hiHF>%.4f",hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("zPt>>hMC_pt",Form("hiHF<=%.4f&&hiHF>%.4f",hf_diff[centL],hf_diff[centH]));
+   tData->Draw("zPt>>hData_pt",hiHFRange);
+   tMC->Draw("zPt>>hMC_pt",hiHFRange);
 
-   tData->Draw("muPt1>>hData_muPt1",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("muPt1>>hMC_muPt1",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tData->Draw("muPt1>>hData_muPt1",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("muPt1>>hMC_muPt1",zMassRange&&zPtRange&&hiHFRange);
 
-   tData->Draw("muPt2>>hData_muPt2",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("muPt2>>hMC_muPt2",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tData->Draw("muPt2>>hData_muPt2",zzMassRange&&PtRange&&hiHFRange);
+   tMC->Draw("muPt2>>hMC_muPt2",zMassRange&&zPtRange&&hiHFRange);
 
-   tMC->Draw("genMuPt1>>hMC_genMuPt1",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("genMuPt2>>hMC_genMuPt2",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("genMuPt1>>hMC_genMuPt1",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("genMuPt2>>hMC_genMuPt2",zMassRange&&zPtRange&&hiHFRange);
 
-   tData->Draw("muPt1:muPt2>>hData_muPt12",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("muPt1:muPt2>>hMC_muPt12",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("genMuPt1:genMuPt2>>hMC_genMuPt12",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tData->Draw("muPt1:muPt2>>hData_muPt12",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("muPt1:muPt2>>hMC_muPt12",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("genMuPt1:genMuPt2>>hMC_genMuPt12",zMassRange&&zPtRange&&hiHFRange);
 
-   tData->Draw("muPt1:muPt2>>hData_muPt12_dr0",Form("muDR<1&&zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("muPt1:muPt2>>hMC_muPt12_dr0",Form("muDR<1&&zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("genMuPt1:genMuPt2>>hMC_genMuPt12_dr0",Form("muDR<1&&zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tData->Draw("muPt1:muPt2>>hData_muPt12_dr0","muDR<1"&&zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("muPt1:muPt2>>hMC_muPt12_dr0","muDR<1"&&zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("genMuPt1:genMuPt2>>hMC_genMuPt12_dr0","muDR<1"&&zMassRange&&zPtRange&&hiHFRange);
 
-   tData->Draw("muDeta>>hData_muDeta",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("muDeta>>hMC_muDeta",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("genMuDeta>>hMC_genMuDeta",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tData->Draw("muDeta>>hData_muDeta",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("muDeta>>hMC_muDeta",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("genMuDeta>>hMC_genMuDeta",zMassRange&&zPtRange&&hiHFRange);
 
-   tData->Draw("muDphi>>hData_muDphi",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("muDphi>>hMC_muDphi",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("genMuDphi>>hMC_genMuDphi",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tData->Draw("muDphi>>hData_muDphi",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("muDphi>>hMC_muDphi",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("genMuDphi>>hMC_genMuDphi",zMassRange&&zPtRange&&hiHFRange);
 
-   tData->Draw("muDR>>hData_muDR",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("muDR>>hMC_muDR",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("genMuDR>>hMC_genMuDR",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tData->Draw("muDR>>hData_muDR",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("muDR>>hMC_muDR",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("genMuDR>>hMC_genMuDR",zMassRange&&zPtRange&&hiHFRange);
 
-   tData->Draw("muDphiS>>hData_muDphiS",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("muDphiS>>hMC_muDphiS",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
-   tMC->Draw("genMuDphiS>>hMC_genMuDphiS",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tData->Draw("muDphiS>>hData_muDphiS",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("muDphiS>>hMC_muDphiS",zMassRange&&zPtRange&&hiHFRange);
+   tMC->Draw("genMuDphiS>>hMC_genMuDphiS",zMassRange&&zPtRange&&hiHFRange);
 
-   //int countD = tData->GetEntries(Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   //int countD = tData->GetEntries(zMassRange&&zPtRange&&hiHFRange);
    //std::cout<<"Data = "<<countD<<std::endl;
-   //int countM = tMC->GetEntries(Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   //int countM = tMC->GetEntries(zMassRange&&zPtRange&&hiHFRange);
    //std::cout<<"MC = "<<countM<<std::endl;
 
    int countD = hData->GetEntries();
@@ -554,16 +539,16 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
 /*
    std::cout<<"UnbinnedFit 1"<<std::endl;
-   tData->UnbinnedFit("f", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"");
-   //tMC->UnbinnedFit("f2", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"");
+   tData->UnbinnedFit("f", "zMass", zPtRange&&hiHFRange,"");
+   //tMC->UnbinnedFit("f2", "zMass", zPtRange&&hiHFRange,"");
 
    std::cout<<"UnbinnedFit 2"<<std::endl;
-   tData->UnbinnedFit("f", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E");
-   //tMC->UnbinnedFit("f2", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E");
+   tData->UnbinnedFit("f", "zMass", zPtRange&&hiHFRange,"E");
+   //tMC->UnbinnedFit("f2", "zMass", zPtRange&&hiHFRange,"E");
 
    std::cout<<"UnbinnedFit 3"<<std::endl;
-   tData->UnbinnedFit("f", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E M");
-   //tMC->UnbinnedFit("f2", "zMass", Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]),"E M");
+   tData->UnbinnedFit("f", "zMass", zPtRange&&hiHFRange,"E M");
+   //tMC->UnbinnedFit("f2", "zMass", zPtRange&&hiHFRange,"E M");
   */
 
    h->SetBinContent(1,f->GetParameter(0));
