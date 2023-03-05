@@ -243,9 +243,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    tMC->Draw("zMass:muDR>>hMC_zMDR",zPtRange&&hiHFRange);
    tMC->Draw("genZMass:genMuDR>>hMC_genzMDR",zPtRange&&hiHFRange);
 
-   tData->Draw("zPt:zMass>>hData_zMDR",hiHFRange);
-   tMC->Draw("zPt:zMass>>hMC_zMDR",hiHFRange);
-   tMC->Draw("genZPt:genZMass>>hMC_genzMDR",hiHFRange);
+   tData->Draw("zPt:zMass>>hData_zPtM",hiHFRange);
+   tMC->Draw("zPt:zMass>>hMC_zPtM",hiHFRange);
+   tMC->Draw("genZPt:genZMass>>hMC_zPtM",hiHFRange);
 
    tData->Draw("muDeta>>hData_muDeta",zMassRange&&zPtRange&&hiHFRange);
    tMC->Draw("muDeta>>hMC_muDeta",zMassRange&&zPtRange&&hiHFRange);
