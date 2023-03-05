@@ -884,7 +884,7 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
       c->Clear();
    }
 
-   c->SetCanvasSize(1400,800);
+   c->SetCanvasSize(2100,800);
    c->Divide(3);
 
    hData_muPt12->SetMinimum(0);
