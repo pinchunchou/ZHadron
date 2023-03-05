@@ -2,6 +2,7 @@
 #include <TTree.h>
 #include <TH1D.h>
 #include <TH2D.h>
+#include <TCut.h>
 #include <TF1.h>
 #include <TMath.h>
 #include <TROOT.h>
@@ -217,7 +218,7 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    tData->Draw("muPt1>>hData_muPt1",zMassRange&&zPtRange&&hiHFRange);
    tMC->Draw("muPt1>>hMC_muPt1",zMassRange&&zPtRange&&hiHFRange);
 
-   tData->Draw("muPt2>>hData_muPt2",zzMassRange&&PtRange&&hiHFRange);
+   tData->Draw("muPt2>>hData_muPt2",zMassRange&&zPtRange&&hiHFRange);
    tMC->Draw("muPt2>>hMC_muPt2",zMassRange&&zPtRange&&hiHFRange);
 
    tMC->Draw("genMuPt1>>hMC_genMuPt1",zMassRange&&zPtRange&&hiHFRange);
