@@ -843,9 +843,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hMC_muDphiS->Draw("hist same");
    hData_muDphiS->Draw("same");
    
-   hData_muDphiS->SetXTitle("#Delta#phi_{#mu#mu}*");
-   hMC_muDphiS->SetXTitle("#Delta#phi_{#mu#mu}*");
-   hMC_genMuDphiS->SetXTitle("#Delta#phi_{#mu#mu}*");
+   hData_muDphiS->SetXTitle("#Delta#phi*_{#mu#mu}");
+   hMC_muDphiS->SetXTitle("#Delta#phi*_{#mu#mu}");
+   hMC_genMuDphiS->SetXTitle("#Delta#phi*_{#mu#mu}");
 
    legMuPt.Draw();
    ptp->Draw();
