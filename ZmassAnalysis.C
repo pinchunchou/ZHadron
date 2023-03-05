@@ -179,6 +179,10 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    TH2D *hMC_muPt12 = new TH2D("hMC_muPt12","",40,0,120,40,0,120);
    TH2D *hMC_genMuPt12 = new TH2D("hMC_genMuPt12","",40,0,120,40,0,120);
 
+   TH2D *hData_muPt12_dr0 = new TH2D("hData_muPt12_dr0","",40,0,120,40,0,120);
+   TH2D *hMC_muPt12_dr0 = new TH2D("hMC_muPt12_dr0","",40,0,120,40,0,120);
+   TH2D *hMC_genMuPt12_dr0 = new TH2D("hMC_genMuPt12_dr0","",40,0,120,40,0,120);
+
 
    TH1D *hData_muDeta = new TH1D("hData_muDeta","",40,-6.284,6.284);
    TH1D *hMC_muDeta = new TH1D("hMC_muDeta","",40,-6.284,6.284);
@@ -237,6 +241,10 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    tData->Draw("muPt1:muPt2>>hData_muPt12",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
    tMC->Draw("muPt1:muPt2>>hMC_muPt12",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
    tMC->Draw("genMuPt1:genMuPt2>>hMC_genMuPt12",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+
+   tData->Draw("muPt1:muPt2>>hData_muPt12_dr0",Form("muDR<1&&zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("muPt1:muPt2>>hMC_muPt12_dr0",Form("muDR<1&&zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
+   tMC->Draw("genMuPt1:genMuPt2>>hMC_genMuPt12_dr0",Form("muDR<1&&zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
 
    tData->Draw("muDeta>>hData_muDeta",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
    tMC->Draw("muDeta>>hMC_muDeta",Form("zPt>%f&&zPt<%f&&hiHF<=%.4f&&hiHF>%.4f",ptL,ptH,hf_diff[centL],hf_diff[centH]));
@@ -302,6 +310,10 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hData_muPt12->Sumw2();
    hMC_muPt12->Sumw2();
    hMC_genMuPt12->Sumw2();
+
+   hData_muPt12_dr0->Sumw2();
+   hMC_muPt12_dr0->Sumw2();
+   hMC_genMuPt12_dr0->Sumw2();
    
    hMC_eta->SetMarkerStyle(24);
    hMC_phi->SetMarkerStyle(24);
@@ -494,6 +506,10 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hData_muPt12->Scale(1./hData_muPt12->Integral("width"));
    hMC_muPt12->Scale(1./hMC_muPt12->Integral("width"));
    hMC_genMuPt12->Scale(1./hMC_genMuPt12->Integral("width"));
+
+   hData_muPt12_dr0->Scale(1./hData_muPt12_dr0->Integral("width"));
+   hMC_muPt12_dr0->Scale(1./hMC_muPt12_dr0->Integral("width"));
+   hMC_genMuPt12_dr0->Scale(1./hMC_genMuPt12_dr0->Integral("width"));
 
    ////style();
    
@@ -799,9 +815,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hMC_muDR->Draw("hist same");
    hData_muDR->Draw("same");
    
-   hData_muDR->SetXTitle("#Delta R");
-   hMC_muDR->SetXTitle("#Delta R");
-   hMC_genMuDR->SetXTitle("#Delta R");
+   hData_muDR->SetXTitle("#DeltaR_{#mu#mu}");
+   hMC_muDR->SetXTitle("#DeltaR_{#mu#mu}");
+   hMC_genMuDR->SetXTitle("#DeltaR_{#mu#mu}");
 
    legMuPt.Draw();
    ptp->Draw();
@@ -827,9 +843,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hMC_muDphiS->Draw("hist same");
    hData_muDphiS->Draw("same");
    
-   hData_muDphiS->SetXTitle("#Delta#phi^{*}");
-   hMC_muDphiS->SetXTitle("#Delta#phi^{*}");
-   hMC_genMuDphiS->SetXTitle("#Delta#phi^{*}");
+   hData_muDphiS->SetXTitle("#Delta#phi_{#mu#mu}*");
+   hMC_muDphiS->SetXTitle("#Delta#phi_{#mu#mu}*");
+   hMC_genMuDphiS->SetXTitle("#Delta#phi_{#mu#mu}*");
 
    legMuPt.Draw();
    ptp->Draw();
@@ -918,6 +934,47 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    ptN->Draw();
 
    c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_muPt12.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
+   c->Clear();
+
+   TLatex *ptdr0 = new TLatex(0.18,0.82,"#DeltaR_{#mu#mu}<1");
+   ptdr0->SetTextFont(42);
+   ptdr0->SetTextSize(0.025);
+   ptdr0->SetNDC(kTRUE);
+
+   c->Divide(3);
+
+   hData_muPt12_dr0->SetMinimum(0);
+   hMC_muPt12_dr0->SetMinimum(0);
+   hMC_genMuPt12_dr0->SetMinimum(0);
+
+   c->cd(1);
+
+   hData_muPt12_dr0->Draw("COLZ");
+   hData_muPt12_dr0->GetYaxis()->SetTitle("Data p_{T,#mu_{1}} (GeV)");
+   hData_muPt12_dr0->GetXaxis()->SetTitle("Data p_{T,#mu_{2}} (GeV)");
+   hData_muPt12_dr0->GetXaxis()->SetNdivisions(50205,kFALSE);
+   
+   ptp->Draw();
+   ptp2->Draw();
+   ptdr0->Draw();
+
+   c->cd(2);
+
+   hMC_muPt12_dr0->Draw("COLZ");
+   hMC_muPt12_dr0->GetYaxis()->SetTitle("MC RECO p_{T,#mu_{1}} (GeV)");
+   hMC_muPt12_dr0->GetXaxis()->SetTitle("MC RECO p_{T,#mu_{2}} (GeV)");
+   hMC_muPt12_dr0->GetXaxis()->SetNdivisions(50205,kFALSE);
+   
+   c->cd(3);
+
+   hMC_genMuPt12_dr0->Draw("COLZ");
+   hMC_genMuPt12_dr0->GetYaxis()->SetTitle("MC GEN p_{T,#mu_{1}} (GeV)");
+   hMC_genMuPt12_dr0->GetXaxis()->SetTitle("MC GEN p_{T,#mu_{2}} (GeV)");
+   hMC_genMuPt12_dr0->GetXaxis()->SetNdivisions(50205,kFALSE);
+
+   //ptN->Draw();
+
+   c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_muPt12_dr0.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
    c->Clear();
 
    //hData->Reset();
