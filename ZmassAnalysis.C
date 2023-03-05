@@ -1012,14 +1012,14 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    c->cd(2);
 
    hMC_zMDR->Draw("COLZ");
-   hMC_zMDR->GetYaxis()->SetTitle("MC RECO M(#mu#mu) (GeV)")
+   hMC_zMDR->GetYaxis()->SetTitle("MC RECO M(#mu#mu) (GeV)");
    hMC_zMDR->GetXaxis()->SetTitle("MC RECO #DeltaR_{#mu#mu}");
    hMC_zMDR->GetXaxis()->SetNdivisions(50205,kFALSE);
    
    c->cd(3);
 
    hMC_genzMDR->Draw("COLZ");
-   hMC_genzMDR->GetYaxis()->SetTitle("MC GEN M(#mu#mu) (GeV)")
+   hMC_genzMDR->GetYaxis()->SetTitle("MC GEN M(#mu#mu) (GeV)");
    hMC_genzMDR->GetXaxis()->SetTitle("MC GEN #DeltaR_{#mu#mu}");
    hMC_genzMDR->GetXaxis()->SetNdivisions(50205,kFALSE);
 
@@ -1039,7 +1039,7 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    
       hData_zPtM->Draw("COLZ");
       hData_zPtM->GetYaxis()->SetTitle("Data Z p_{T} (GeV)");
-      hData_zPtM->GetXaxis()->SetTitle("Data M(#mu#mu) (GeV)")
+      hData_zPtM->GetXaxis()->SetTitle("Data M(#mu#mu) (GeV)");
       hData_zPtM->GetXaxis()->SetNdivisions(50205,kFALSE);
       
       ptp->Draw();
@@ -1049,14 +1049,14 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    
       hMC_zPtM->Draw("COLZ");
       hMC_zPtM->GetYaxis()->SetTitle("MC RECO Z p_{T} (GeV)");
-      hMC_zPtM->GetXaxis()->SetTitle("MC RECO M(#mu#mu) (GeV)")
+      hMC_zPtM->GetXaxis()->SetTitle("MC RECO M(#mu#mu) (GeV)");
       hMC_zPtM->GetXaxis()->SetNdivisions(50205,kFALSE);
       
       c->cd(3);
    
       hMC_genzPtM->Draw("COLZ");
       hMC_genzPtM->GetYaxis()->SetTitle("MC GEN Z p_{T} (GeV)");
-      hMC_genzPtM->GetXaxis()->SetTitle("MC GEN M(#mu#mu) (GeV)")
+      hMC_genzPtM->GetXaxis()->SetTitle("MC GEN M(#mu#mu) (GeV)");
       hMC_genzPtM->GetXaxis()->SetNdivisions(50205,kFALSE);
    
       ptN->Draw();
