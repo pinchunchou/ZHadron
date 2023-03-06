@@ -203,7 +203,7 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    TH1D *hMC_muDphiS = new TH1D("hMC_muDphiS","",40,-1,1);
    TH1D *hMC_genMuDphiS = new TH1D("hMC_genMuDphiS","",40,-1,1);
 
-   TCut zMassRange = "zMass>40";
+   TCut zMassRange = "zMass>60";
    TCut zPtRange = Form("zPt>%f&&zPt<%f",ptL,ptH);
    TCut hiHFRange = Form("hiHF<=%.4f&&hiHF>%.4f",hf_diff[centL],hf_diff[centH]);
    
