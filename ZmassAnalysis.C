@@ -665,15 +665,15 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    ptp2->SetNDC(kTRUE);
    //ptp2->Draw();
 
-   TLatex *ptpp1 = new TLatex(0.18,0.89,Form("%.1f < p_{T,#mu_{1}} < %.1f",ptL,ptH));
+   TLatex *ptpp1 = new TLatex(0.18,0.88,Form("%.1f < p_{T,#mu_{1}} < %.1f",ptL,ptH));
    ptpp1->SetTextFont(42);
-   ptpp1->SetTextSize(0.025);
+   ptpp1->SetTextSize(0.03);
    ptpp1->SetNDC(kTRUE);
 
-   TLatex *ptpp2 = new TLatex(0.18,0.89,Form("%.1f < p_{T,#mu_{2}} < %.1f",ptL,ptH));
-   ptpp1->SetTextFont(42);
-   ptpp1->SetTextSize(0.025);
-   ptpp1->SetNDC(kTRUE);
+   TLatex *ptpp2 = new TLatex(0.18,0.88,Form("%.1f < p_{T,#mu_{2}} < %.1f",ptL,ptH));
+   ptpp2->SetTextFont(42);
+   ptpp2->SetTextSize(0.03);
+   ptpp2->SetNDC(kTRUE);
 
    TLatex *ptN = new TLatex(0.6,0.97,Form("N_{MC} = %d, N_{Data} = %d",countM,countD));
    ptN->SetTextFont(42);
@@ -962,14 +962,14 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hMC_muPtRatio1->Draw();
    hMC_muPtRatio1->SetXTitle("Reco p_{T,#mu_{1}}/Gen p_{T,#mu_{1}} (GeV)");
 
-   ptp->Draw();
+   pt->Draw();
    ptpp1->Draw();
 
    c->cd(2);
    hMC_muPtRatio2->Draw();
    hMC_muPtRatio2->SetXTitle("Reco p_{T,#mu_{2}}/Gen p_{T,#mu_{2}} (GeV)");
 
-   ptp->Draw();
+   pt->Draw();
    ptpp2->Draw();
 
    ptN->Draw();
