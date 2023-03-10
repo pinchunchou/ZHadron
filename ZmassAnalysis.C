@@ -18,6 +18,7 @@
 #include <TLegend.h>
 #include <TLatex.h>
 #include <TChain.h>
+#include <TLine.h>
 void style(){
 
   gROOT->SetStyle("Plain");
@@ -170,6 +171,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    TH1D *hData_muPt2 = new TH1D("hData_muPt2","",40,0,120);
    TH1D *hMC_muPt2 = new TH1D("hMC_muPt2","",40,0,120);
 
+   TH1D *hMC_muPtRatio1 = new TH1D("hMC_muPtRatio1","",40,0,1.5);
+   TH1D *hMC_muPtRatio2 = new TH1D("hMC_muPtRatio2","",40,0,1.5);
+
    TH1D *hMC_genMuPt1 = new TH1D("hMC_genMuPt1","",40,0,120);
    TH1D *hMC_genMuPt2 = new TH1D("hMC_genMuPt2","",40,0,120);
 
@@ -205,6 +209,8 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    TCut zMassRange = "zMass>60";
    TCut zPtRange = Form("zPt>%f&&zPt<%f",ptL,ptH);
+   TCut muPt1Range = Form("max(genMuPt1,genMuPt2)>%f&&max(genMuPt1,genMuPt2)<%f",ptL,ptH);
+   TCut muPt2Range = Form("min(genMuPt1,genMuPt2)>%f&&min(genMuPt1,genMuPt2)<%f",ptL,ptH);
    TCut hiHFRange = Form("hiHF<=%.4f&&hiHF>%.4f",hf_diff[centL],hf_diff[centH]);
    
    tData->Draw("zMass>>hData",zMassRange&&zPtRange&&hiHFRange);
@@ -230,6 +236,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    tMC->Draw("max(genMuPt1,genMuPt2)>>hMC_genMuPt1",zMassRange&&zPtRange&&hiHFRange);
    tMC->Draw("min(genMuPt1,genMuPt2)>>hMC_genMuPt2",zMassRange&&zPtRange&&hiHFRange);
+   
+   tMC->Draw("muPt1/max(genMuPt1,genMuPt2)>>hMC_muPtRatio1",zMassRange&&muPt1Range&&hiHFRange);
+   tMC->Draw("muPt2/min(genMuPt1,genMuPt2)>>hMC_muPtRatio2",zMassRange&&muPt2Range&&hiHFRange);
 
    tData->Draw("muPt1:muPt2>>hData_muPt12",zPtRange&&hiHFRange);
    tMC->Draw("muPt1:muPt2>>hMC_muPt12",zPtRange&&hiHFRange);
@@ -285,6 +294,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hMC_phi->Sumw2();
    hData_pt->Sumw2();
    hMC_pt->Sumw2();
+
+   hMC_muPtRatio1->Sumw2();
+   hMC_muPtRatio2->Sumw2();
 
    hData_muPt1->Sumw2();
    hMC_muPt1->Sumw2();
@@ -352,6 +364,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hData->SetMarkerColor(kBlack);
    //hData->SetMarkerSize(2);
    hData->SetLineColor(kBlack);
+
+   hMC_muPtRatio1->SetLineColor(kBlack);
+   hMC_muPtRatio2->SetLineColor(kBlack);
    
    //hMC->SetMarkerStyle(kFullSquare);
    hMC->SetMarkerColor(kRed);
@@ -407,6 +422,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hData_muDphi->SetLineWidth(2);
    hData_muDR->SetLineWidth(2);
    hData_muDphiS->SetLineWidth(2);
+
+   hMC_muPtRatio1->SetLineWidth(2);
+   hMC_muPtRatio2->SetLineWidth(2);
 
    hMC_genMuPt1->SetLineColor(TColor::GetColor("#004488"));
    hMC_muPt1->SetLineColor(TColor::GetColor("#994455"));
@@ -526,6 +544,10 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hData_zPtM->Scale(1./hData_zPtM->Integral("width"));
    hMC_zPtM->Scale(1./hMC_zPtM->Integral("width"));
    hMC_genzPtM->Scale(1./hMC_genzPtM->Integral("width"));
+
+   hMC_muPtRatio1->Scale(1./hMC_muPtRatio1->Integral("width"));
+   hMC_muPtRatio2->Scale(1./hMC_muPtRatio2->Integral("width"));
+
    ////style();
    
 //   TF1 *f = new TF1("f","[0]+[1]*x+[2]*TMath::BreitWigner(x, [3], [4])");
@@ -638,6 +660,11 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    ptp2->SetTextSize(0.025);
    ptp2->SetNDC(kTRUE);
    //ptp2->Draw();
+
+   TLatex *ptpp = new TLatex(0.18,0.89,Form("%.1f < #mu p_{T} < %.1f",ptL,ptH));
+   ptpp->SetTextFont(42);
+   ptpp->SetTextSize(0.025);
+   ptpp->SetNDC(kTRUE);
 
    TLatex *ptN = new TLatex(0.6,0.97,Form("N_{MC} = %d, N_{Data} = %d",countM,countD));
    ptN->SetTextFont(42);
@@ -915,6 +942,41 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
       c->SetLogy(0);
       c->Clear();
    }
+
+   c->SetCanvasSize(1400,800);
+
+
+   c->Divide(2);
+   hMC_muPtRatio1->SetMinimum(0);
+   hMC_muPtRatio2->SetMinimum(0);
+
+   c->cd(1);
+   hMC_muPtRatio1->Draw();
+
+   TLine *l1 = new TLine(0,1,1.5,1);
+   l1->SetLineWidth(2);
+   l1->Draw();
+
+   hMC_muPtRatio1->SetXTitle("Reco p_{T,#mu_{1}}/Gen p_{T,#mu_{1}} (GeV)");
+
+   ptp->Draw();
+   ptpp->Draw();
+
+   c->cd(2);
+   hMC_muPtRatio2->Draw();
+
+   hMC_muPtRatio2->SetXTitle("Reco p_{T,#mu_{2}}/Gen p_{T,#mu_{2}} (GeV)");
+
+   l1->Draw();
+
+   ptp->Draw();
+   ptpp->Draw();
+
+   ptN->Draw();
+
+   c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_muPtRatio.png",typeofdata,typeofdata,cent_diff[centL],cent_diff[centH])); 
+
+   c->Clear();
 
    c->SetCanvasSize(2100,800);
    c->Divide(3);
