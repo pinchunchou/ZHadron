@@ -950,6 +950,7 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
       c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_pt_log.png",typeofdata,typeofdata,cent_diff[centL],cent_diff[centH])); 
       c->SetLogy(0);
       c->Clear();
+      pt->SetY(0.82);
    }
 
    c->SetCanvasSize(1400,800);
