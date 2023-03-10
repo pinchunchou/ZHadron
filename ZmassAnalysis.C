@@ -171,8 +171,8 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    TH1D *hData_muPt2 = new TH1D("hData_muPt2","",40,0,120);
    TH1D *hMC_muPt2 = new TH1D("hMC_muPt2","",40,0,120);
 
-   TH1D *hMC_muPtRatio1 = new TH1D("hMC_muPtRatio1","",40,0,1.5);
-   TH1D *hMC_muPtRatio2 = new TH1D("hMC_muPtRatio2","",40,0,1.5);
+   TH1D *hMC_muPtRatio1 = new TH1D("hMC_muPtRatio1","",40,0.7,1.4);
+   TH1D *hMC_muPtRatio2 = new TH1D("hMC_muPtRatio2","",40,0.7,1.4);
 
    TH1D *hMC_genMuPt1 = new TH1D("hMC_genMuPt1","",40,0,120);
    TH1D *hMC_genMuPt2 = new TH1D("hMC_genMuPt2","",40,0,120);
@@ -354,6 +354,9 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hMC_muDphi->SetMarkerStyle(24);
    hMC_muDR->SetMarkerStyle(24);
    hMC_muDphiS->SetMarkerStyle(24);
+
+   hMC_muPtRatio1->SetMarkerStyle(24);
+   hMC_muPtRatio2->SetMarkerStyle(24);
    
 //   hData->Draw("e");
 //   hMC->Draw("e same");
@@ -364,9 +367,6 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    hData->SetMarkerColor(kBlack);
    //hData->SetMarkerSize(2);
    hData->SetLineColor(kBlack);
-
-   hMC_muPtRatio1->SetLineColor(kBlack);
-   hMC_muPtRatio2->SetLineColor(kBlack);
    
    //hMC->SetMarkerStyle(kFullSquare);
    hMC->SetMarkerColor(kRed);
@@ -425,6 +425,16 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    hMC_muPtRatio1->SetLineWidth(2);
    hMC_muPtRatio2->SetLineWidth(2);
+
+   hMC_muPtRatio1->SetLineWidth(2);
+   hMC_muPtRatio2->SetLineWidth(2);
+
+   hMC_muPtRatio1->SetLineColor(TColor::GetColor("#004488"));
+   hMC_muPtRatio2->SetLineColor(TColor::GetColor("#004488"));
+   hMC_muPtRatio1->SetFillColor(TColor::GetColor("#6699CC"));
+   hMC_muPtRatio2->SetFillColor(TColor::GetColor("#6699CC"));
+   hMC_muPtRatio1->SetFillStyle(3345); hMC_muPtRatio1->SetLineWidth(3);
+   hMC_muPtRatio2->SetFillStyle(3345); hMC_muPtRatio2->SetLineWidth(3);
 
    hMC_genMuPt1->SetLineColor(TColor::GetColor("#004488"));
    hMC_muPt1->SetLineColor(TColor::GetColor("#994455"));
@@ -945,18 +955,12 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    c->SetCanvasSize(1400,800);
 
-
    c->Divide(2);
    hMC_muPtRatio1->SetMinimum(0);
    hMC_muPtRatio2->SetMinimum(0);
 
    c->cd(1);
    hMC_muPtRatio1->Draw();
-
-   TLine *l1 = new TLine(0,1,1.5,1);
-   l1->SetLineWidth(2);
-   l1->Draw();
-
    hMC_muPtRatio1->SetXTitle("Reco p_{T,#mu_{1}}/Gen p_{T,#mu_{1}} (GeV)");
 
    ptp->Draw();
@@ -964,17 +968,14 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    c->cd(2);
    hMC_muPtRatio2->Draw();
-
    hMC_muPtRatio2->SetXTitle("Reco p_{T,#mu_{2}}/Gen p_{T,#mu_{2}} (GeV)");
-
-   l1->Draw();
 
    ptp->Draw();
    ptpp->Draw();
 
    ptN->Draw();
 
-   c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_muPtRatio.png",typeofdata,typeofdata,cent_diff[centL],cent_diff[centH])); 
+   c->SaveAs(Form("figs/mass/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_muPtRatio.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH])); 
 
    c->Clear();
 
