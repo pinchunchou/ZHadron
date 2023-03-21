@@ -11,11 +11,7 @@
 #include <TCanvas.h>
 #include <TLegend.h>
 #include <TAxis.h>
-#include <RooPlot.h>
-#include <TMath.h>
-#include <TF1.h>
 #include <TSystem.h>
-#include <TLegend.h>
 #include <TLatex.h>
 #include <TChain.h>
 #include <TLine.h>
