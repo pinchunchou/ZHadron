@@ -67,11 +67,15 @@ void DrawSumPfE(){
     double sumPfE_HJ;
     tHJ->SetBranchAddress("sumPfE", &sumPfE_HJ);
 
+    std::cout<<"Filling MC"<<std::endl;
 
    	for(int i=0;i<entries_MC;i++){
    		tMC->GetEntry(i);
    		dataMC[i] = sumPfE_MC;
    	}
+
+   	std::cout<<"Filling HJ"<<std::endl;
+
    	for(int i=0;i<entries_HJ;i++){
    		tHJ->GetEntry(i);
    		dataHJ[i] = sumPfE_HJ;
@@ -88,10 +92,17 @@ void DrawSumPfE(){
    	double sum_sum_sum_MC = 0;
    	double sum_sum_sum_HJ = 0;
 
+   	std::cout<<"Filling hist!"<<std::endl;
+
    	for(int i=0;i<10;i++){
+
+   		std::cout<<"i = "<<i<<std::endl;
 
    		double sum_sum_MC = 0;
    		int count_MC = 0;
+
+   		std::cout<<"Filling MC"<<std::endl;
+
    		for(int j=(int)(i*entries_MC/10);j<(int)((i+1)*entries_MC/10);j++){
    			sum_sum_MC+=dataMC[j];
    			sum_sum_sum_MC+=dataMC[j];
@@ -103,6 +114,8 @@ void DrawSumPfE(){
    		double sum_sum_HJ = 0;
    		int count_HJ = 0;
 
+   		std::cout<<"Filling HJ"<<std::endl;
+
    		for(int j=(int)(i*entries_HJ/10);j<(int)((i+1)*entries_HJ/10);j++){
    			sum_sum_HJ+=dataHJ[j];
    			sum_sum_sum_HJ+=dataHJ[j];
@@ -111,6 +124,8 @@ void DrawSumPfE(){
    		sum_sum_HJ/=count_HJ;
    		hHJ_PfE_avg->Fill(i*10+5,sum_sum_HJ);
    	}
+
+   	std::cout<<"Drawing..."<<std::endl;
 
    	sum_sum_sum_MC/=entries_MC;
    	sum_sum_sum_HJ/=entries_HJ;
