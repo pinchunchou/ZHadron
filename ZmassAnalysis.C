@@ -955,6 +955,11 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    c->SetCanvasSize(1400,800);
 
+   TLatex *ptRm1 = new TLatex(0.18,0.76,Form("Mean = %.3f",hMC_muPtRatio1->GetMean()));
+   TLatex *ptRs1 = new TLatex(0.18,0.70,Form("Std Dev = %.3f",hMC_muPtRatio2->GetMean()));
+   TLatex *ptRm2 = new TLatex(0.18,0.76,Form("Mean = %.3f",hMC_muPtRatio1->GetStdDev()));
+   TLatex *ptRs2 = new TLatex(0.18,0.70,Form("Std Dev = %.3f",hMC_muPtRatio2->GetStdDev()));
+
    c->Divide(2);
    hMC_muPtRatio1->SetMinimum(0);
    hMC_muPtRatio2->SetMinimum(0);
@@ -965,6 +970,8 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    pt->Draw();
    ptpp1->Draw();
+   ptRm1->Draw();
+   ptRs1->Draw();
 
    c->cd(2);
    hMC_muPtRatio2->Draw();
@@ -972,6 +979,8 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
 
    pt->Draw();
    ptpp2->Draw();
+   ptRm2->Draw();
+   ptRs2->Draw();
 
    ptN->Draw();
 
