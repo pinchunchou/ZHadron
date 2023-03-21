@@ -952,9 +952,25 @@ TH1D* ZmassAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    c->SetCanvasSize(1400,800);
 
    TLatex *ptRm1 = new TLatex(0.18,0.76,Form("Mean = %.3f",hMC_muPtRatio1->GetMean()));
-   TLatex *ptRs1 = new TLatex(0.18,0.70,Form("Std Dev = %.3f",hMC_muPtRatio2->GetMean()));
-   TLatex *ptRm2 = new TLatex(0.18,0.76,Form("Mean = %.3f",hMC_muPtRatio1->GetStdDev()));
+   TLatex *ptRs1 = new TLatex(0.18,0.70,Form("Std Dev = %.3f",hMC_muPtRatio1->GetStdDev()));
+   TLatex *ptRm2 = new TLatex(0.18,0.76,Form("Mean = %.3f",hMC_muPtRatio2->GetMean()));
    TLatex *ptRs2 = new TLatex(0.18,0.70,Form("Std Dev = %.3f",hMC_muPtRatio2->GetStdDev()));
+
+   ptRm1->SetTextFont(42);
+   ptRm1->SetTextSize(0.03);
+   ptRm1->SetNDC(kTRUE);
+
+   ptRs1->SetTextFont(42);
+   ptRs1->SetTextSize(0.03);
+   ptRs1->SetNDC(kTRUE);
+
+   ptRm2->SetTextFont(42);
+   ptRm2->SetTextSize(0.03);
+   ptRm2->SetNDC(kTRUE);
+
+   ptRs2->SetTextFont(42);
+   ptRs2->SetTextSize(0.03);
+   ptRs2->SetNDC(kTRUE);
 
    c->Divide(2);
    hMC_muPtRatio1->SetMinimum(0);
