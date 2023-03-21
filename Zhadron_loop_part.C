@@ -10,7 +10,7 @@
 #include <TLorentzVector.h>
 
 #define M_MU 0.1056583755
-#define PI 3.1415926535897932384626433832795
+#define PI 3.14159265358979323846264338327950288
 
 double dphi(double phi1,double phi2)
 {
@@ -76,7 +76,10 @@ class ZhadronData
    int hiBin;
    float hiHF;
 
+   float Ncoll;
+   double sumPfE;
    
+
    ZhadronData(){};
    ~ZhadronData(){};
    void setBranch(TTree *t){
@@ -120,6 +123,9 @@ class ZhadronData
       t->Branch("genMuDphi",&genMuDphi);
       t->Branch("genMuDR",&genMuDR);
       t->Branch("genMuDphiS",&genMuDphiS);
+
+      t->Branch("sumPfE",&sumPfE);
+      t->Branch("Ncoll",&Ncoll);
 
    };
    
@@ -172,6 +178,7 @@ void Zhadron_singleFile(const char *dirname, TString fname, int genornot, TNtupl
    f.doPbPbTracks=1;
    f.doMuTree=1;
    f.doHiTree=1;
+   f.doPfTree=1;
    f.Init();
 
    ZhadronData data;
@@ -189,6 +196,16 @@ void Zhadron_singleFile(const char *dirname, TString fname, int genornot, TNtupl
 
      // display the progress
      if (i%1000==0) cout <<i<<"/"<<f.GetEntries()<<endl;
+
+     // Loop over PF information
+     double sumPfE_tmp = 0;
+     if (f.pfTree.nPF>0) {
+         for(int ipf=0;ipf<f.pfTree.nPF;ipf++){
+           //cout<<"(*f.pfTree.pfEta)[ipf] = "<<(*f.pfTree.pfEta)[ipf]<<endl;
+           if((*f.pfTree.pfEta)[ipf]>3.&&(*f.pfTree.pfEta)[ipf]<5.) sumPfE_tmp+=(*f.pfTree.pfE)[ipf];
+         }
+     }
+
      // Loop over Gen information (single muons)
      if (f.muTree.Gen_nptl>1) {
         for (int igen1=0;igen1<f.muTree.Gen_nptl;igen1++) {
@@ -233,6 +250,7 @@ void Zhadron_singleFile(const char *dirname, TString fname, int genornot, TNtupl
           }   
         }
      }
+     
 
      // loop over RECO information (dimuons)
      for (int ipair=0;ipair<f.muTree.Di_npair;ipair++) {
@@ -268,6 +286,9 @@ void Zhadron_singleFile(const char *dirname, TString fname, int genornot, TNtupl
 
          data.hiBin=f.hi.hiBin;
          data.hiHF=f.hi.hiHF;
+         data.Ncoll=f.hi.Ncoll;
+         data.sumPfE=sumPfE_tmp;
+
          nt->Fill(f.muTree.Di_mass[ipair],f.muTree.Di_pt[ipair], f.muTree.Di_eta[ipair], f.muTree.Di_phi[ipair]);
      }
      
