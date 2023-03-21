@@ -1,0 +1,37 @@
+executable   = ./do_Zhadron_loop.sh
+
+arguments    = 0 1 $(ProcId)
+
+output       = ./out/ZhadronLoopMC.$(ClusterId).$(ProcId).out
+error        = ./err/ZhadronLoopMC.$(ClusterId).$(ProcId).err
+log          = ./log/ZhadronLoopMC.$(ClusterId).$(ProcId).log
+
+request_cpus   = 10
+
+initialdir = /afs/cern.ch/user/p/pchou/ZHadron/
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
++JobFlavour = "tomorrow"
+
+queue 50
+
+executable   = ./do_Zhadron_loop_2.sh
+
+arguments    = 0 1 $(ProcId)
+
+output       = ./out/ZhadronLoopDiMuon.$(ClusterId).$(ProcId).out
+error        = ./err/ZhadronLoopDiMuon.$(ClusterId).$(ProcId).err
+log          = ./log/ZhadronLoopDiMuon.$(ClusterId).$(ProcId).log
+
+request_cpus   = 10
+
+initialdir = /afs/cern.ch/user/p/pchou/ZHadron/
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
++JobFlavour = "tomorrow"
+
+queue 1
