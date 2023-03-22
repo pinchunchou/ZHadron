@@ -1,0 +1,16 @@
+executable   = ./do_AnaSumPfE.sh
+
+output       = ./out/AnaSumPfE.$(ClusterId).$(ProcId).out
+error        = ./err/AnaSumPfE.$(ClusterId).$(ProcId).err
+log          = ./log/AnaSumPfE.$(ClusterId).$(ProcId).log
+
+request_cpus   = 10
+
+initialdir = /afs/cern.ch/user/p/pchou/ZHadron/
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
++JobFlavour = "tomorrow"
+
+queue 1
