@@ -532,8 +532,8 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    pt2->Draw();
    pt3->Draw();
 
-   gPad->SetTheta(65.);
-   gPad->SetPhi(145.);
+   gPad->SetTheta(60.839);
+   gPad->SetPhi(38.0172);
 
    c->cd(2);
    hData_etaphi0_1->Draw("lego20z");
@@ -545,8 +545,8 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
 
    ptN0->Draw();
 
-   gPad->SetTheta(65.);
-   gPad->SetPhi(145.);
+   gPad->SetTheta(60.839);
+   gPad->SetPhi(38.0172);
 
    c->SaveAs(Form("figs/track/%s/Zmass_%s_%.0f_%.0f_%.0f_%.0f_%.0f_%.0f_Detaphi0_3D.png",typeofdata,typeofdata,ptL,ptH,cent_diff[centL],cent_diff[centH],TptL,TptH)); 
    //c->SetCanvasSize(800,800);
