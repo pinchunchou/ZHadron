@@ -15,6 +15,10 @@
 #include <TLatex.h>
 #include <TChain.h>
 #include <TLine.h>
+
+#define M_Z 91.1876
+#define W_Z 0.1056583755
+
 void style(){
 
   gROOT->SetStyle("Plain");
@@ -1361,6 +1365,20 @@ void loopHiBin()
    TH1D *hDataWidth_1 = new TH1D("hDataWidth_1","",4,cent_diff);
    TH1D *hMCWidth_1 = new TH1D("hMCWidth_1","",4,cent_diff);
 
+   TH1D *hDataMass_PDG = new TH1D("hDataMass_PDG","",4,cent_diff);
+   TH1D *hMCMass_PDG = new TH1D("hMCMass_PDG","",4,cent_diff);
+
+   TH1D *hDataWidth_PDG = new TH1D("hDataWidth_PDG","",4,cent_diff);
+   TH1D *hMCWidth_PDG = new TH1D("hMCWidth_PDG","",4,cent_diff);
+
+   TH1D *hDataMass_PDG_1 = new TH1D("hDataMass_PDG_1","",4,cent_diff);
+   TH1D *hMCMass_PDG_1 = new TH1D("hMCMass_PDG_1","",4,cent_diff);
+
+   TH1D *hDataWidth_PDG_1 = new TH1D("hDataWidth_PDG_1","",4,cent_diff);
+   TH1D *hMCWidth_PDG_1 = new TH1D("hMCWidth_PDG_1","",4,cent_diff);
+
+
+
 
    //TH1F *hnew = new TH1F("hnew","rebinned",k,cent_diff);
    
@@ -1383,6 +1401,23 @@ void loopHiBin()
       hMCMass_1->SetBinContent(i,h->GetBinContent(10));
       hDataWidth_1->SetBinContent(i,h->GetBinContent(11));
       hMCWidth_1->SetBinContent(i,h->GetBinContent(12));
+
+      hDataMass_PDG->SetBinContent(i,h->GetBinContent(1));
+      hDataMass_PDG->SetBinError(i,h->GetBinContent(2));
+      hMCMass_PDG->SetBinContent(i,h->GetBinContent(3));
+      hMCMass_PDG->SetBinError(i,h->GetBinContent(4));
+
+      hDataWidth_PDG->SetBinContent(i,h->GetBinContent(5));
+      hDataWidth_PDG->SetBinError(i,h->GetBinContent(6));
+      hMCWidth_PDG->SetBinContent(i,h->GetBinContent(7));
+      hMCWidth_PDG->SetBinError(i,h->GetBinContent(8));
+
+      hDataMass_PDG_1->SetBinContent(i,h->GetBinContent(9));
+      hMCMass_PDG_1->SetBinContent(i,h->GetBinContent(10));
+      hDataWidth_PDG_1->SetBinContent(i,h->GetBinContent(11));
+      hMCWidth_PDG_1->SetBinContent(i,h->GetBinContent(12));
+
+
 
       //std::cout<<"i = "<<i<<std::endl;
       //std::cout<<"hDataMass = "<<h->GetBinContent(1)<<"+-"<<h->GetBinContent(2)<<std::endl;

@@ -10,6 +10,9 @@
 #include <TChain.h>
 #include <iostream>
 #include <algorithm>
+#include <vector>
+
+using namespace std;
 void style(){
 
   gROOT->SetStyle("Plain");
@@ -43,6 +46,8 @@ void style(){
 
 void AnaSumPfE(){
 
+  style();
+
   std::cout<<"Start running..."<<std::endl;
 
 	TChain *tMC = new TChain("particleFlowAnalyser/pftree");
@@ -56,8 +61,8 @@ void AnaSumPfE(){
 
   std::cout<<"entries_MC = "<<entries_MC<<", entries_HJ = "<<entries_HJ<<std::endl;
 
-  vector<float>* pfE_MC;
-  vector<float>* pfEta_MC;
+  vector<float>* pfE_MC = 0;
+  vector<float>* pfEta_MC = 0;
   int nPF_MC;
   tMC->SetBranchAddress("pfE", &pfE_MC);
   tMC->SetBranchAddress("nPF", &nPF_MC);
@@ -65,8 +70,8 @@ void AnaSumPfE(){
 
   std::cout<<"a"<<std::endl;
 
-  vector<float>* pfE_HJ;
-  vector<float>* pfEta_HJ;
+  vector<float>* pfE_HJ = 0;
+  vector<float>* pfEta_HJ = 0;
   int nPF_HJ;
   tHJ->SetBranchAddress("pfE", &pfE_HJ);
   tHJ->SetBranchAddress("nPF",&nPF_HJ);
@@ -84,30 +89,39 @@ void AnaSumPfE(){
   std::cout<<"Filling MC"<<std::endl;
 
   double sumPfE_tmp = 0;
+  int count_no0_MC = 0, count_no0_HJ = 0;
 
   for (int i = 0; i < entries_MC; i++){
     //std::cout<<"i = "<<i<<std::endl;
+    if (i%1000==0) cout <<i<<"/"<<entries_MC<<endl;
     tMC->GetEntry(i);
+    //std::cout<<"d"<<std::endl;
     sumPfE_tmp = 0;
+    //std::cout<<"nPF_MC = "<<nPF_MC<<std::endl;
     for(int ipf=0;ipf<nPF_MC;ipf++){
       //std::cout<<"ipf = "<<ipf<<std::endl;
-      if((*pfEta_MC)[ipf]>3.&&(*pfEta_MC)[ipf]<5.) sumPfE_tmp+=(*pfE_MC)[ipf];
+      if(fabs((*pfEta_MC)[ipf])>3.&&fabs((*pfEta_MC)[ipf])<5.) sumPfE_tmp+=(*pfE_MC)[ipf];
     }
     //std::cout<<"Storing..."<<std::endl;
     dataMC[i] = sumPfE_tmp;
+    if(sumPfE_tmp>0) count_no0_MC++;
     //std::cout<<"Stored."<<std::endl;
   }
 
   std::cout<<"Filling HJ"<<std::endl;
 
   for (int i = 0; i < entries_HJ; i++){
+    if (i%1000==0) cout <<i<<"/"<<entries_HJ<<endl;
     tHJ->GetEntry(i);
     sumPfE_tmp = 0;
     for(int ipf=0;ipf<nPF_HJ;ipf++){
-      if((*pfEta_HJ)[ipf]>3.&&(*pfEta_HJ)[ipf]<5.) sumPfE_tmp+=(*pfE_HJ)[ipf];
+      if(fabs((*pfEta_HJ)[ipf])>3.&&fabs((*pfEta_HJ)[ipf])<5.) sumPfE_tmp+=(*pfE_HJ)[ipf];
     }
     dataHJ[i] = sumPfE_tmp;
+    if(sumPfE_tmp>0) count_no0_HJ++;
   }
+
+  std::cout<<"count_no0_MC = "<<count_no0_MC<<", count_no0_HJ = "<<count_no0_HJ<<std::endl;
 
   std::sort(dataMC, dataMC + entries_MC, std::greater<int>());
   std::sort(dataHJ, dataHJ + entries_HJ, std::greater<int>());
@@ -116,6 +130,7 @@ void AnaSumPfE(){
 
   TH1D *hMC_PfE_avg = new TH1D("hMC_PfE_avg","",10,0,100);
   TH1D *hHJ_PfE_avg = new TH1D("hHJ_PfE_avg","",10,0,100);
+  TH1D *hMH_PfE_avg = new TH1D("hMH_PfE_avg","",10,0,100);
 
   double sum_sum_sum_MC = 0;
   double sum_sum_sum_HJ = 0;
@@ -131,12 +146,13 @@ void AnaSumPfE(){
 
   	std::cout<<"Filling MC"<<std::endl;
 
-  	for(int j=(int)(i*entries_MC/10);j<(int)((i+1)*entries_MC/10);j++){
+  	for(int j=(int)(i*count_no0_MC/10);j<(int)((i+1)*count_no0_MC/10);j++){
   		sum_sum_MC+=dataMC[j];
   		sum_sum_sum_MC+=dataMC[j];
   		count_MC++;
   	}
   	sum_sum_MC/=count_MC;
+    std::cout<<"sum_sum_MC = "<<sum_sum_MC<<std::endl;
   	hMC_PfE_avg->Fill(i*10+5,sum_sum_MC);
 
   	double sum_sum_HJ = 0;
@@ -144,28 +160,29 @@ void AnaSumPfE(){
 
   	std::cout<<"Filling HJ"<<std::endl;
 
-  	for(int j=(int)(i*entries_HJ/10);j<(int)((i+1)*entries_HJ/10);j++){
+  	for(int j=(int)(i*count_no0_HJ/10);j<(int)((i+1)*count_no0_HJ/10);j++){
   		sum_sum_HJ+=dataHJ[j];
   		sum_sum_sum_HJ+=dataHJ[j];
   		count_HJ++;
   	}
   	sum_sum_HJ/=count_HJ;
+    std::cout<<"sum_sum_HJ = "<<sum_sum_HJ<<std::endl;
   	hHJ_PfE_avg->Fill(i*10+5,sum_sum_HJ);
+    hMH_PfE_avg->Fill(i*10+5,sum_sum_HJ-sum_sum_MC);
   }
 
   std::cout<<"Drawing..."<<std::endl;
 
-  sum_sum_sum_MC/=entries_MC;
-  sum_sum_sum_HJ/=entries_HJ;
+  sum_sum_sum_MC/=count_no0_MC;
+  sum_sum_sum_HJ/=count_no0_HJ;
 
-  std::cout<<"sum_sum_sum_MC = "<<sum_sum_sum_MC<<std::endl;
-  std::cout<<"sum_sum_sum_HJ = "<<sum_sum_sum_HJ<<std::endl;
+  std::cout<<"<sum_sum_sum_MC> = "<<sum_sum_sum_MC<<std::endl;
+  std::cout<<"<sum_sum_sum_HJ> = "<<sum_sum_sum_HJ<<std::endl;
 
-  TCanvas *c1 = new TCanvas("c1","",800,800);
-  style();
+  TCanvas *c1 = new TCanvas("c1","",1200,800);
 
-  hMC_PfE_avg->SetMarkerStyle(24);
-  hHJ_PfE_avg->SetMarkerStyle(25);
+  hMC_PfE_avg->SetMarkerStyle(20);
+  hHJ_PfE_avg->SetMarkerStyle(21);
 
   hMC_PfE_avg->SetMarkerColor(TColor::GetColor("#377eb8"));
   hHJ_PfE_avg->SetMarkerColor(TColor::GetColor("#e41a1c"));
@@ -179,10 +196,10 @@ void AnaSumPfE(){
   hMC_PfE_avg->SetYTitle("Average of HF energy");
   hHJ_PfE_avg->SetYTitle("Average of HF energy");
 
-  hMC_PfE_avg->Draw("p");
-  hHJ_PfE_avg->Draw("p same");
+  hMC_PfE_avg->Draw("hist p");
+  hHJ_PfE_avg->Draw("hist p same");
 
-  TLegend leg(0.18,0.68,0.58,0.9);
+  TLegend leg(0.58,0.78,0.9,0.9);
   leg.AddEntry(hMC_PfE_avg ,"Z+hydjet MC","p");
   leg.AddEntry(hHJ_PfE_avg ,"Hydjet only MC","p");
   leg.SetFillColorAlpha(kWhite,0);
@@ -190,8 +207,27 @@ void AnaSumPfE(){
   leg.SetLineWidth(1);
   leg.Draw();
 
-
   c1->SaveAs("figs/SumPfE.png"); 
+
+  hMC_PfE_avg->SetMinimum(1);
+  hHJ_PfE_avg->SetMinimum(1);
+  c1->SetLogy(1);
+
+  c1->SaveAs("figs/SumPfE_log.png"); 
+
+  c1->Clear();
+  c1->SetLogy(0);
+
+  hMH_PfE_avg->SetMarkerStyle(20);
+  hMH_PfE_avg->SetMarkerColor(kBlack);
+  hMH_PfE_avg->SetMinimum(0);
+
+  hMH_PfE_avg->SetXTitle("Percentage");
+  hMH_PfE_avg->SetYTitle("Difference of HF energy average");
+
+  hMH_PfE_avg->Draw("hist p");
+
+  c1->SaveAs("figs/SumPfE_diff.png"); 
 
   free(dataMC);
   free(dataHJ);

@@ -152,8 +152,8 @@ TH1D* ZmassMinuit_single(double ptL=0,double ptH=2000,int centL=0,int centH=4)
    TChain *tData = new TChain("t");
    tData->Add(Form("/eos/cms/store/group/phys_heavyions_ops/pchou/%s/*.root?#t",typeofdata));
 
-   vector<double>* tagzMassData;
-   vector<double>* tagzPtData;
+   vector<double>* tagzMassData = 0;
+   vector<double>* tagzPtData = 0;
    Float_t taghiHFData;
    tData->SetBranchAddress("zMass",&tagzMassData);
    tData->SetBranchAddress("zPt", &tagzPtData);

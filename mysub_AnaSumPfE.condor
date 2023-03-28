@@ -11,6 +11,6 @@ initialdir = /afs/cern.ch/user/p/pchou/ZHadron/
 should_transfer_files = YES
 when_to_transfer_output = ON_EXIT
 
-+JobFlavour = "tomorrow"
++JobFlavour = "longlunch"
 
 queue 1
