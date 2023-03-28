@@ -520,8 +520,9 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    //TH2 *hMC_etaphi0_1 = hMC_etaphi0->Rebin2D(2,2,"hMC_etaphi0_1");
    //TH2 *hData_etaphi0_1 = hData_etaphi0->Rebin2D(2,2,"hData_etaphi0_1");
 
-   hMC_etaphi0_1->Draw("surf2");
-   hMC_etaphi0_1->Draw("CONT1 SAME");
+   hMC_etaphi0_1->Draw("lego20z");
+   //hMC_etaphi0_1->Draw("surf2");
+   //hMC_etaphi0_1->Draw("CONT1 SAME");
    hMC_etaphi0_1->GetYaxis()->SetTitle("MC #Delta#phi_{Z,track}");
    hMC_etaphi0_1->GetXaxis()->SetTitle("MC |#Delta#eta_{Z,track}|");
    hMC_etaphi0_1->GetXaxis()->SetNdivisions(50205,kFALSE);
@@ -535,8 +536,9 @@ void ZtrackAnalysis_single(double ptL=0,double ptH=2000,int centL=0,int centH=4,
    gPad->SetPhi(145.);
 
    c->cd(2);
-   hData_etaphi0_1->Draw("surf2");
-   hData_etaphi0_1->Draw("CONT1 SAME");
+   hData_etaphi0_1->Draw("lego20z");
+   //hData_etaphi0_1->Draw("surf2");
+   //hData_etaphi0_1->Draw("CONT1 SAME");
    hData_etaphi0_1->GetYaxis()->SetTitle("Data #Delta#phi_{Z,track}");
    hData_etaphi0_1->GetXaxis()->SetTitle("Data |#Delta#eta_{Z,track}|");
    hData_etaphi0_1->GetXaxis()->SetNdivisions(50205,kFALSE);
